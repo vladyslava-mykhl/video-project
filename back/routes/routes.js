@@ -28,7 +28,6 @@ router.post('/upload-video', fileMiddleware.single('video'), async(req, res) => 
 })
 router.post('/uploaded-video/:id', async(req, res) => {
     try {
-
         const videoPath = `public/video/${req.params.id}.mp4`
         const photoDirectoryPath = `public/video-screen/${req.params.id}/`
         const photo = []
@@ -38,8 +37,6 @@ router.post('/uploaded-video/:id', async(req, res) => {
             video: videoPath.slice(7),
             photo: photo
         })
-
-
     } catch (err) {
         res.status(500).send(err)
     }

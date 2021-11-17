@@ -1,3 +1,8 @@
+import '../App.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import React, {useState} from "react";
 import {CancelButton, SaveButton, OpenButton, CopyButton} from '../components/Buttons';
@@ -5,17 +10,26 @@ import {VideoUploadForm} from '../components/VideoUploadForm';
 import {ShareButtons} from  '../components/ShareButtons'
 import { Alert } from 'react-bootstrap';
 import Loader from "react-loader-spinner";
-import '../App.css';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { toast } from 'react-toastify';
 
 function VideoUpload() {
     const [initialVideoName, setInitialVideoName] = useState("Choose video");
     const [chosenVideo, setChosenVideo] = useState(null);
     const [uploadedVideo, setUploadedVideo] = useState(null);
     const [loading, setLoading] = useState(null);
-
+    toast.configure()
+    const successToast = () => toast.success(`Videо ${initialVideoName} is uploaded`, {
+        position: "top-center",
+        autoClose: 4000,
+        closeOnClick: true,
+        draggable: true
+    });
+    const errorToast = (err) => toast.error(err, {
+        position: "top-center",
+        autoClose: 4000,
+        closeOnClick: true,
+        draggable: true
+    });
     const onUpload = async () => {
         setLoading(true);
         setUploadedVideo({id: null});
@@ -29,7 +43,12 @@ function VideoUpload() {
             };
             const uploadVideoUrl = "http://localhost:3000/upload-video";
             const uploadedVideoUrl = `http://localhost:3001/uploaded-video/`;
-            const result = await axios.post(uploadVideoUrl, data, headers).then(resp => resp.data).catch((err) => console.log(err));
+            const result = await axios.post(uploadVideoUrl, data, headers)
+                .then(resp => {
+                    successToast()
+                    return resp.data
+                })
+                .catch(err => errorToast(err));
             setUploadedVideo({id: result.id, path: uploadedVideoUrl + result?.id});
             setLoading(false);
         } catch (e) {
@@ -63,17 +82,15 @@ function VideoUpload() {
                         {!uploadedVideo?.id && <div className="buttons">
                             <SaveButton file={chosenVideo} onUpload={onUpload}/>
                             <CancelButton file={chosenVideo} onCancel={onCancel}/>
-                        </div>}
+                        </div> }
                         {uploadedVideo?.id && <div className="open-video">
-                            <Alert variant="success">
-                                {`Videо ${uploadedVideo?.id} is uploaded`}
-                            </Alert>
                             <div className="share-block">
                                 <OpenButton href={uploadedVideo?.path}/>
                                 <CopyButton copyToClipboard={copyTextToClipboard}>Copy</CopyButton>
                                 <ShareButtons url={uploadedVideo?.path}/>
                             </div>
-                        </div> }
+                        </div>
+                        }
                     </div>
                 }
             </div>

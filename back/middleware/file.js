@@ -1,5 +1,7 @@
 const multer = require('multer')
 const { uuid } = require('uuidv4');
+const fs = require('fs')
+const folderName = 'public/video'
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) =>{
