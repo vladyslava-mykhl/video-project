@@ -99,10 +99,6 @@
 .open-video div a {
   margin: 0 15px;
 }
-.open-video input {
-  position: absolute;
-  opacity: 0%;
-}
 
 .share-buttons {
   display: inline-block;

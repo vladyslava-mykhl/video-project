@@ -1,36 +1,36 @@
-import '../App.css';
 import axios from "axios";
-import React, {useState, useRef} from "react";
+import React, {useState} from "react";
 import {CancelButton, SaveButton, OpenButton, CopyButton} from '../components/Buttons';
 import {VideoUploadForm} from '../components/VideoUploadForm';
 import {ShareButtons} from  '../components/ShareButtons'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Alert } from 'react-bootstrap';
+import Loader from "react-loader-spinner";
+import '../App.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Loader from "react-loader-spinner";
 
 function VideoUpload() {
-    const [name, setName] = useState("Choose video");
-    const [file, setFile] = useState(null);
-    const [id, setId] = useState(null);
+    const [initialVideoName, setInitialVideoName] = useState("Choose video");
+    const [chosenVideo, setChosenVideo] = useState(null);
+    const [uploadedVideo, setUploadedVideo] = useState(null);
     const [loading, setLoading] = useState(null);
-    const textAreaRef = useRef(null);
-    const uploadedUrl = `http://localhost:3001/uploaded-video/`;
+
     const onUpload = async () => {
         setLoading(true);
-        setId(null);
+        setUploadedVideo({id: null});
         try {
             const data = new FormData();
-            data.append('video', file);
+            data.append('video', chosenVideo);
             const headers = {
                 headers: {
                     'content-type': 'multipart/form-data',
                 },
             };
-            const url = "http://localhost:3000/upload-video";
-            const result = await axios.post(url, data, headers).then(resp => resp.data).catch((err) => console.log(err));
-            setId(result?.id);
+            const uploadVideoUrl = "http://localhost:3000/upload-video";
+            const uploadedVideoUrl = `http://localhost:3001/uploaded-video/`;
+            const result = await axios.post(uploadVideoUrl, data, headers).then(resp => resp.data).catch((err) => console.log(err));
+            setUploadedVideo({id: result.id, path: uploadedVideoUrl + result?.id});
             setLoading(false);
         } catch (e) {
             setLoading(false);
@@ -38,45 +38,46 @@ function VideoUpload() {
         }
     };
     const onCancel = () => {
-        setFile(null);
-        setName("Choose video");
+        setChosenVideo(null);
+        setInitialVideoName("Choose video");
     };
     const handleFileChange = (e) => {
         if (e.target.files[0]) {
-            setId(null);
-            setFile(e.target.files[0]);
-            setName(e.target.files[0].name);
-        } else onCancel()
+            setUploadedVideo({id: null});
+            setChosenVideo(e.target.files[0]);
+            setInitialVideoName(e.target.files[0].name);
+        } else onCancel();
     };
-    const copyToClipboard = (e) => {
-        textAreaRef.current.select();
-        document.execCommand('copy');
-        e.target.focus();
+    const copyTextToClipboard = async () => {
+        if ('clipboard' in navigator) {
+            return await navigator.clipboard.writeText(uploadedVideo?.path);
+        } else {
+            return document.execCommand('copy', true, uploadedVideo?.path);
+        }
     };
     return (
             <div className="App">
                 {loading ? <Loader type="TailSpin" color='#6c757d' height={150} width={150} className="video-upload"/> :
                     <div className="video-upload">
-                        <VideoUploadForm handleFileChange={handleFileChange} name={name} id={id}/>
-                        {!id && <div className="buttons">
-                            <SaveButton file={file} onUpload={onUpload}/>
-                            <CancelButton file={file} onCancel={onCancel}/>
+                        <VideoUploadForm handleFileChange={handleFileChange} name={initialVideoName} id={uploadedVideo?.id}/>
+                        {!uploadedVideo?.id && <div className="buttons">
+                            <SaveButton file={chosenVideo} onUpload={onUpload}/>
+                            <CancelButton file={chosenVideo} onCancel={onCancel}/>
                         </div>}
-                        {id && <div className="open-video">
+                        {uploadedVideo?.id && <div className="open-video">
                             <Alert variant="success">
-                                {`Videо ${id} is uploaded`}
-                                <input value={uploadedUrl + id} ref={textAreaRef}/>
+                                {`Videо ${uploadedVideo?.id} is uploaded`}
                             </Alert>
                             <div className="share-block">
-                                <OpenButton href={uploadedUrl + id}/>
-                                <CopyButton copyToClipboard={copyToClipboard}>Copy</CopyButton>
-                                <ShareButtons url={uploadedUrl + id}/>
+                                <OpenButton href={uploadedVideo?.path}/>
+                                <CopyButton copyToClipboard={copyTextToClipboard}>Copy</CopyButton>
+                                <ShareButtons url={uploadedVideo?.path}/>
                             </div>
                         </div> }
                     </div>
                 }
             </div>
-    )
-}
+        )
+    };
 
 export default VideoUpload;
