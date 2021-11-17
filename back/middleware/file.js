@@ -1,8 +1,13 @@
 const multer = require('multer')
 const { uuid } = require('uuidv4');
 const fs = require('fs')
-const folderName = 'public/video'
 
+if (!fs.existsSync('public/video')) {
+    fs.mkdir('public/video', {recursive: true}, err => {
+        if (err) throw err;
+        console.log('Все папки успешно созданы');
+    });
+}
 const storage = multer.diskStorage({
     destination: (req, file, cb) =>{
         cb(null, 'public/video')

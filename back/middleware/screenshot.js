@@ -7,6 +7,12 @@ const fs = require('fs')
 const { getVideoDurationInSeconds } = require('get-video-duration')
 ffmpeg.setFfmpegPath(ffmpegPath);
 
+if (!fs.existsSync('public/video-screen')) {
+    fs.mkdir('public/video-screen', {recursive: true}, err => {
+        if (err) throw err;
+        console.log('Все папки успешно созданы');
+    });
+}
 
 const takeScreenshot = (fileName, videoPath) => {
     return new Promise((res, rej) => {
