@@ -89,10 +89,8 @@ function VideoUpload() {
                                 <CopyButton copyToClipboard={copyTextToClipboard}>Copy</CopyButton>
                                 <ShareButtons url={uploadedVideo?.path}/>
                             </div>
-                        </div>
-                        }
-                    </div>
-                }
+                        </div> }
+                    </div> }
             </div>
         )
     };
