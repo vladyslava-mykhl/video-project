@@ -1,8 +1,6 @@
 import {Button} from 'react-bootstrap';
-import Tooltip from 'react-bootstrap/Tooltip'
-import Overlay from 'react-bootstrap/Overlay'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, {useState, useRef} from "react";
+import React from "react";
 
 export const CancelButton = ({file, onCancel}) => {
     return (

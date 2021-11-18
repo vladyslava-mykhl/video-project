@@ -8,7 +8,6 @@ import React, {useState} from "react";
 import {CancelButton, SaveButton, OpenButton, CopyButton} from '../components/Buttons';
 import {VideoUploadForm} from '../components/VideoUploadForm';
 import {ShareButtons} from  '../components/ShareButtons'
-import { Alert } from 'react-bootstrap';
 import Loader from "react-loader-spinner";
 import { toast } from 'react-toastify';
 

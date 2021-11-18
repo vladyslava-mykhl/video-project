@@ -57,7 +57,6 @@
   align-items: center;
   width: 400px;
   padding: 0 !important;
-  margin: 10px 15px;
   font-size: 4em;
 }
 
@@ -117,4 +116,34 @@
 .Toastify__toast {
   background-color: #cdeed0 !important;
   color: #313131 !important;
+}
+
+.video {
+  height: 428px !important;
+  width: 795px !important;
+  margin: 101px auto;
+  padding: 0 !important;
+  position: relative;
+}
+
+.video video {
+  border-radius: 8px;
+}
+
+.video .video-btn {
+  position: absolute;
+  width: 75px;
+  height: 70px;
+  left: 50%;
+  top: 50%;
+  background: #000000;
+  border-radius: 50%;
+  border-color: #000;
+  opacity: 60%;
+}
+.video .video-btn span {
+  position: absolute;
+  color: #fff;
+  left: 32px;
+  top: 24px;
 }

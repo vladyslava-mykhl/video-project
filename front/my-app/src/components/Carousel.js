@@ -8,15 +8,15 @@ export const Photo = ({photos, second, setSecond}) => {
     ];
     return (
         <>
-            {photos && <Carousel breakPoints={breakPoints}>
-                {photos?.map(photo =>
-                    <div className="photo">
-                        <img src={`http://localhost:3000/${photo}`} alt="screen" onClick={e => setSecond(e.target.src.slice(72, -4))}/>
-                        <p className="legend">{photo.slice(50, -4)}</p>
-                    </div>
-                )}
-            </Carousel>
-            }
+            {/*{photos && <Carousel breakPoints={breakPoints}>*/}
+            {/*    {photos?.map(photo =>*/}
+            {/*        <div className="photo">*/}
+            {/*            <img src={`http://localhost:3000/${photo}`} alt="screen" onClick={e => setSecond(e.target.src.slice(72, -4))}/>*/}
+            {/*            <p className="legend">{photo.slice(50, -4)}</p>*/}
+            {/*        </div>*/}
+            {/*    )}*/}
+            {/*</Carousel>*/}
+            {/*}*/}
         </>
     )
 }
