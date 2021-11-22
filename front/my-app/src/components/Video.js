@@ -22,12 +22,12 @@ export const Video = ({video, second}) => {
         {video == null ?
             <Loader type="TailSpin" color='#6c757d' height={150} width={150} className="video-upload"/> :
             <>
-                <div className="video">
-                    <video onEnded={() => setToggle(!toggle)} ref={vidRef} src={src}/>
-                    <PlayPauseVideoButton triggerToggle={triggerToggle} toggle={toggle}/>
-                </div>
                 <div  className="download-video-block">
-                     <DownloadVideoButton src={src} id={id}/>
+                    <DownloadVideoButton src={src} id={id}/>
+                </div>
+                <div className="video">
+                    <video autoPlay muted  onEnded={() => setToggle(!toggle)} ref={vidRef} src={src}/>
+                    <PlayPauseVideoButton triggerToggle={triggerToggle} toggle={toggle}/>
                 </div>
             </>
         }

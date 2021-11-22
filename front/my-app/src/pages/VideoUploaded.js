@@ -38,7 +38,7 @@ const VideoUpload = () => {
         onUpload();
     }, []);
     return (
-            <div className="App">
+            <div className="uploaded-video-page">
                 <Video video={videos} second={second}/>
                 <Photo photos={photos} second={second} setSecond={setSecond}/>
             </div>

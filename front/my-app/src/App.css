@@ -45,92 +45,88 @@
   width: 500px;
   border: none;
 }
+.photo  img {
+  width: 250px;
+  height: 140px;
+  border-radius: 5%;
+  position: relative;
+}
+
 .photo {
-  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.photo img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 400px;
-  padding: 0 !important;
-  font-size: 4em;
+
 }
 
 .photo p {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #ffffff;
-  background: #000000;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  z-index: 10;
+  position: relative;
+  bottom: 25px;
+  left: 100px;
+  background: #fff;
+  border-radius: 35%;
+  height: 20px;
+  font-weight: 700;
+  opacity: 80%;
+  width: 30px;
+  text-align: center;
+  font-size: 12px;
 }
 
-.jMNKZk {
-  width: 70% !important;
-}
-.gZZBOx {
-  display: none !important;
-}
 .home .alert {
-  margin: 2em 7em !important;
+margin: 2em 7em !important;
 }
 .buttons button, .buttons a {
-   margin: 30px 10px;
+margin: 30px 10px;
 }
 
 .open-video {
-  display: flex;
-  align-items: baseline;
-  margin-top: 30px;
-  flex-direction: column;
+display: flex;
+align-items: baseline;
+margin-top: 30px;
+flex-direction: column;
 }
 
 .open-video  .share-block {
- margin: 5px auto;
+margin: 5px auto;
 }
 
 .open-video div a {
-  margin: 0 15px;
+margin: 0 15px;
 }
 
 .share-buttons {
-  display: inline-block;
-  margin: 0 15px;
+display: inline-block;
+margin: 0 15px;
 }
 
 .share-buttons button {
-  margin: 0 3px;
+margin: 0 3px;
 }
 
-.Toastify__toast-container {
-  top: 5em !important;
-  width: 600px !important;
-}
-
-.Toastify__toast {
-  background-color: #cdeed0 !important;
-  color: #313131 !important;
-}
-
-/*.video {*/
-/*  height: 428px !important;*/
-/*  width: 795px !important;*/
-/*  margin: 101px auto;*/
-/*  padding: 0 !important;*/
-/*  position: relative;*/
+/*.Toastify__toast-container {*/
+/*  top: 5em !important;*/
+/*  width: 600px !important;*/
 /*}*/
+
+/*.Toastify__toast {*/
+/*  background-color: #cdeed0 !important;*/
+/*  color: #313131 !important;*/
+/*}*/
+
+.video {
+  display: flex;
+  align-content: center;
+  position: relative;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
 .video video {
   border-radius: 8px;
-  position: absolute;
   margin: auto;
-  top: 0; left: 0; bottom: 0; right: 0;
+
 }
 
 .play-video-btn {
@@ -187,4 +183,13 @@
   transform: translateY(-30px);
   background-color: #212529;
   border-color: #212529;
+}
+.uploaded-video-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rec.rec-arrow:disabled {
+  visibility: hidden;
 }
