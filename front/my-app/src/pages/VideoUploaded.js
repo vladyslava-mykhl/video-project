@@ -9,7 +9,6 @@ const VideoUpload = () => {
     const [photos, setPhotos] = useState(null);
     const [videos, setVideo] = useState(null);
     const [second, setSecond] = useState(1);
-
     const href = window.location.href
     const id = href.split("/")[4]
     const data = new FormData()
@@ -20,7 +19,6 @@ const VideoUpload = () => {
             'content-type': 'multipart/form-data',
         },
     };
-
     useEffect(() => {
         const onUpload = async () => {
             setPhotos(null);

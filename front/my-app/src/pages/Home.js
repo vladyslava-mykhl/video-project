@@ -1,8 +1,9 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import styled from 'styled-components';
 
-function Home() {
+const Home = () => {
     return (
         <div className="home">
             <Alert variant="dark">
@@ -18,7 +19,9 @@ function Home() {
                     and tidy.
                 </p>
             </Alert>`
-    </div>
-    )}
+        </div>
+    )
+}
 
-export default Home
+export default Home;
+
