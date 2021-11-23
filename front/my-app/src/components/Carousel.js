@@ -4,9 +4,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styled from 'styled-components';
 
 export const Photo = ({photos, second, setSecond}) => {
-   return (
+    const breakPoints = [{ width: 320, itemsToShow: 1}, {width: 600, itemsToShow: 2}, {width: 900, itemsToShow: 3}, {width: 1240, itemsToShow: 6}]
+    return (
         <>
-            {photos && <Carousel  pagination={false} itemPadding={[0]} itemsToShow={6} enableSwipe={false}>
+            {photos && <Carousel  pagination={false} itemPadding={[0]} breakPoints={breakPoints} enableSwipe={false}>
                 {photos?.map(photo =>
                     <PhotoComponent>
                         <img src={`http://localhost:3000/${photo}`} alt="screen" onClick={e => setSecond(e.target.src.slice(72, -4))}/>
@@ -23,19 +24,24 @@ const PhotoComponent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; 
+  position: relative;
+  overflow: visible;
   img {
-    max-width: 100%;
-    max-height: 80%;
-    border-radius: 5%;
-    position: relative;
-  }
+    border-radius: 3%;
+    cursor: pointer;
+    transition: all 500ms;
+}
+  img:hover {
+     transform: scale(1.05);
+   }
   p {
     z-index: 10;
-    position: relative;
-    bottom: 15%;
-    left: 40%;
+    position: absolute;
+    bottom: 0;
+    right: 5%;
     background: #fff;
-    border-radius: 35%;
+    border-radius: 10px;
     height: 20px;
     font-weight: 700;
     opacity: 80%;
