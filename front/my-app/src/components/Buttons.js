@@ -1,10 +1,11 @@
 import {Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {faPause, faPlay, faDownload} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {FacebookShareButton, TelegramShareButton, EmailShareButton} from "react-share";
 import {FacebookIcon, TelegramIcon, EmailIcon} from "react-share";
+import styled from 'styled-components';
 
 export const CancelButton = ({file, onCancel}) => {
     return (
@@ -40,7 +41,7 @@ export const CopyButton = ({copyToClipboard, text}) => {
 
 export const ShareButtons = ({url}) => {
     return (
-        <div className="share-buttons">
+        <ShareButtonsBlock>
             <FacebookShareButton url={url}>
                 <FacebookIcon size={35} round={true} />
             </FacebookShareButton>
@@ -50,14 +51,14 @@ export const ShareButtons = ({url}) => {
             <EmailShareButton url={url}>
                 <EmailIcon size={35} round={true} />
             </EmailShareButton>
-        </div>
+        </ShareButtonsBlock>
     );
 };
 
 export const PlayPauseVideoButton = ({triggerToggle, toggle}) => {
     return (
         <>
-            <button className="play-video-btn" onClick={triggerToggle}>
+            <button onClick={triggerToggle}>
                 <span>{toggle ? <FontAwesomeIcon icon={faPlay}/> : <FontAwesomeIcon icon={faPause}/>}</span>
             </button>
         </>
@@ -67,11 +68,14 @@ export const PlayPauseVideoButton = ({triggerToggle, toggle}) => {
 export const DownloadVideoButton = ({handleClick, isLoading}) => {
     return (
         <>
-            <Button className="download-video-btn" variant="dark" disabled={isLoading} onClick={!isLoading ? handleClick : null}>
-                <span><FontAwesomeIcon icon={faDownload} />{isLoading ? 'Loading…' : 'Click to load'}</span>
+            <Button variant="dark" disabled={isLoading} onClick={!isLoading ? handleClick : null}>
+            <span><FontAwesomeIcon icon={faDownload} />{isLoading ? 'Loading…' : 'Click to load'}</span>
             </Button>
         </>
     );
 };
 
-
+const ShareButtonsBlock = styled.div`
+  display: inline-block;
+  margin: 0 15px;*
+`;

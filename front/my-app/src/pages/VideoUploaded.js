@@ -3,6 +3,7 @@ import axios from "axios";
 import React, {useState, useEffect } from "react";
 import {Video} from '../components/Video';
 import {Photo} from '../components/Carousel';
+import styled from 'styled-components';
 
 const VideoUpload = () => {
     const [photos, setPhotos] = useState(null);
@@ -35,11 +36,17 @@ const VideoUpload = () => {
         onUpload();
     }, []);
     return (
-            <div className="uploaded-video-page">
+            <UploadedVideoPage>
                 <Video video={videos} second={second}/>
                 <Photo photos={photos} second={second} setSecond={setSecond}/>
-            </div>
+            </UploadedVideoPage>
     );
 };
 
 export default VideoUpload;
+
+const UploadedVideoPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;

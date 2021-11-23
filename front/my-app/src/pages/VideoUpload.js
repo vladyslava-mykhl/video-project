@@ -8,6 +8,7 @@ import {CancelButton, SaveButton, OpenButton, CopyButton, ShareButtons} from '..
 import {VideoUploadForm} from '../components/VideoUploadForm';
 import Loader from "react-loader-spinner";
 import { toast } from 'react-toastify';
+import styled from 'styled-components';
 
 const VideoUpload = () => {
     const [initialVideoName, setInitialVideoName] = useState("Choose video");
@@ -76,20 +77,39 @@ const VideoUpload = () => {
                 {loading ? <Loader type="TailSpin" color='#6c757d' height={150} width={150} className="video-upload"/> :
                     <div className="video-upload">
                         <VideoUploadForm handleFileChange={handleFileChange} name={initialVideoName} id={uploadedVideo?.id}/>
-                        {!uploadedVideo?.id && <div className="buttons">
+                        {!uploadedVideo?.id && <UploadVideoButtons>
                             <SaveButton file={chosenVideo} onUpload={onUpload}/>
                             <CancelButton file={chosenVideo} onCancel={onCancel}/>
-                        </div> }
-                        {uploadedVideo?.id && <div className="open-video">
-                            <div className="share-block">
+                        </UploadVideoButtons> }
+                        {uploadedVideo?.id && <UploadedVideoButtons>
+                            <div>
                                 <OpenButton href={uploadedVideo?.path}/>
                                 <CopyButton copyToClipboard={copyTextToClipboard}>Copy</CopyButton>
                                 <ShareButtons url={uploadedVideo?.path}/>
                             </div>
-                        </div> }
+                        </UploadedVideoButtons> }
                     </div> }
             </div>
         );
     };
 
 export default VideoUpload;
+
+const UploadedVideoButtons = styled.div`
+  display: flex;
+  align-items: baseline;
+  margin-top: 30px;
+  flex-direction: column;
+  a {
+    margin: 0 15px;
+  }
+  button {
+    margin: 0 3px;
+  }
+`;
+
+const UploadVideoButtons = styled.div`
+  a, button {
+    margin: 30px 10px;
+  }
+`;
