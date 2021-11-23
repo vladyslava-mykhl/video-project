@@ -1,10 +1,9 @@
-
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import history from '../components/history';
-import VideoUpload from "../pages/VideoUpload"
-import VideoUploaded from "../pages/VideoUploaded"
-import Home from  "../pages/Home"
-import NavBar from "../components/NavBar"
+import VideoUpload from "../pages/VideoUpload";
+import VideoUploaded from "../pages/VideoUploaded";
+import Home from  "../pages/Home";
+import NavBar from "../components/NavBar";
 
 const Routs = () => {
     return (
@@ -18,7 +17,7 @@ const Routs = () => {
                 </Switch>
             </Router>
         </>
-    )
-}
+    );
+};
 
-export default Routs
+export default Routs;

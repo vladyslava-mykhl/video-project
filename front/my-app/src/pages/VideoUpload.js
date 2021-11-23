@@ -4,18 +4,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import React, {useState} from "react";
-import {CancelButton, SaveButton, OpenButton, CopyButton} from '../components/Buttons';
+import {CancelButton, SaveButton, OpenButton, CopyButton, ShareButtons} from '../components/Buttons';
 import {VideoUploadForm} from '../components/VideoUploadForm';
-import {ShareButtons} from  '../components/ShareButtons'
 import Loader from "react-loader-spinner";
 import { toast } from 'react-toastify';
 
-function VideoUpload() {
+const VideoUpload = () => {
     const [initialVideoName, setInitialVideoName] = useState("Choose video");
     const [chosenVideo, setChosenVideo] = useState(null);
     const [uploadedVideo, setUploadedVideo] = useState(null);
     const [loading, setLoading] = useState(null);
-    toast.configure()
+    toast.configure();
     const successToast = () => toast.success(`Videо ${initialVideoName} is uploaded`, {
         position: "top-center",
         autoClose: 4000,
@@ -43,8 +42,8 @@ function VideoUpload() {
             const uploadedVideoUrl = `http://localhost:3001/uploaded-video/`;
             const result = await axios.post(uploadVideoUrl, data, headers)
                 .then(resp => {
-                    successToast()
-                    return resp.data
+                    successToast();
+                    return resp.data;
                 })
                 .catch(err => errorToast(err));
             setUploadedVideo({id: result.id, path: uploadedVideoUrl + result?.id});
@@ -52,7 +51,7 @@ function VideoUpload() {
         } catch (e) {
             setLoading(false);
             console.log(e);
-        }
+        };
     };
     const onCancel = () => {
         setChosenVideo(null);
@@ -70,7 +69,7 @@ function VideoUpload() {
             return await navigator.clipboard.writeText(uploadedVideo?.path);
         } else {
             return document.execCommand('copy', true, uploadedVideo?.path);
-        }
+        };
     };
     return (
             <div className="App">
@@ -90,7 +89,7 @@ function VideoUpload() {
                         </div> }
                     </div> }
             </div>
-        )
+        );
     };
 
 export default VideoUpload;

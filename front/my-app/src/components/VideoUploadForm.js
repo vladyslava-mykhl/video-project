@@ -9,5 +9,5 @@ export const VideoUploadForm = ({handleFileChange, name, id}) => {
                 { id ? "Choose other video" : name}
             </label>
         </>
-    )
-}
+    );
+};

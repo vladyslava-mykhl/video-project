@@ -2,7 +2,7 @@ import React from 'react';
 import { Nav, Container,  Navbar} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function NavBar() {
+const NavBar = () => {
     return (
         <>
             <Navbar bg="dark" variant="dark">
@@ -15,6 +15,7 @@ function NavBar() {
                 </Container>
             </Navbar>
         </>
-    )}
+    );
+};
 
-export default NavBar
+export default NavBar;

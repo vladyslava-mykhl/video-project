@@ -1,9 +1,8 @@
 import React from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Carousel from 'react-elastic-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export const Photo = ({photos, second, setSecond}) => {
-
    return (
         <div className="slider">
             {photos && <Carousel  pagination={false} itemPadding={[0]} itemsToShow={6} enableSwipe={false}>
@@ -16,5 +15,5 @@ export const Photo = ({photos, second, setSecond}) => {
             </Carousel>
             }
         </div>
-    )
-}
+    );
+};
