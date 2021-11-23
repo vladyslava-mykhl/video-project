@@ -10,7 +10,7 @@ export const Photo = ({photos, second, setSecond}) => {
                 {photos?.map(photo =>
                     <PhotoComponent>
                         <img src={`http://localhost:3000/${photo}`} alt="screen" onClick={e => setSecond(e.target.src.slice(72, -4))}/>
-                        <p className="legend">{`00:${photo.slice(50, -4)}`}</p>
+                        <p className="legend">{(photo.slice(50, -4)).length < 2 ? `00:0${photo.slice(50, -4)}` : `00:${photo.slice(50, -4)}`}</p>
                     </PhotoComponent>
                 )}
             </Carousel>
