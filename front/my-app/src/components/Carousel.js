@@ -7,7 +7,7 @@ export const Photo = ({photos, second, setSecond}) => {
     const breakPoints = [{ width: 320, itemsToShow: 1}, {width: 600, itemsToShow: 2}, {width: 900, itemsToShow: 3}, {width: 1240, itemsToShow: 6}]
     return (
         <>
-            {photos && <Carousel  pagination={false} itemPadding={[0]} breakPoints={breakPoints} enableSwipe={false}>
+            {photos && <Carousel  pagination={false} itemPadding={[10]} breakPoints={breakPoints} enableSwipe={false}>
                 {photos?.map(photo =>
                     <PhotoComponent>
                         <img src={`http://localhost:3000/${photo}`} alt="screen" onClick={e => setSecond(e.target.src.slice(72, -4))}/>
@@ -27,10 +27,15 @@ const PhotoComponent = styled.div`
   justify-content: center; 
   position: relative;
   overflow: visible;
+  width: 100%;
+    max-height: 200px;
   img {
     border-radius: 3%;
     cursor: pointer;
     transition: all 500ms;
+    max-height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
   img:hover {
      transform: scale(1.05);

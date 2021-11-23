@@ -34,7 +34,7 @@
   color: black !important;
 }
 .rec-item-wrapper, .rec-slider-container {
-  overflow: visible !important;
+  overflow-y: visible !important;
 }
 
 .rec-carousel-item{
