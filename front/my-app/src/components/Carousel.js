@@ -4,7 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styled from 'styled-components';
 
 export const Photo = ({photos, second, setSecond}) => {
-    const breakPoints = [{ width: 320, itemsToShow: 1}, {width: 600, itemsToShow: 2}, {width: 900, itemsToShow: 3}, {width: 1240, itemsToShow: 6}]
+    const breakPoints = [{ width: 320, itemsToShow: 1}, {width: 600, itemsToShow: 2}, {width: 900, itemsToShow: 3}, {width: 1200, itemsToShow: 4} , {width: 1400, itemsToShow: 5}]
     return (
         <>
             {photos && <Carousel  pagination={false} itemPadding={[10]} breakPoints={breakPoints} enableSwipe={false}>

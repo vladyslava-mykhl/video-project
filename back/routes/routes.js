@@ -5,7 +5,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const ffprobe = require('ffprobe')
 const router = Router()
 const { uuid } = require('uuidv4');
-const extractFrames = require('ffmpeg-extract-frames')
+const authController = require('../controllers/authConroller')
 const fs = require('fs')
 const { getVideoDurationInSeconds } = require('get-video-duration')
 let converter = require('../middleware/convert')
@@ -42,5 +42,7 @@ router.post('/uploaded-video/:id', async(req, res) => {
     }
 })
 
+/** User */
+router.post('/register', (authController.registerUser))
 
 module.exports = router
