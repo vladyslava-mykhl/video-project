@@ -1,5 +1,7 @@
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import history from '../components/history';
+import RegistrationForm from '../pages/Registration'
+import LoginForm from '../pages/Login'
 import VideoUpload from "../pages/VideoUpload";
 import VideoUploaded from "../pages/VideoUploaded";
 import Home from  "../pages/Home";
@@ -12,6 +14,8 @@ const Routs = () => {
                 <NavBar/>
                 <Switch>
                     <Route path="/" exact component={Home}/>
+                    <Route path="/reg" component={RegistrationForm}/>
+                    <Route path="/log" component={LoginForm}/>
                     <Route path="/ulpoad-video" component={VideoUpload}/>
                     <Route path="/uploaded-video" component={VideoUploaded}/>
                 </Switch>
