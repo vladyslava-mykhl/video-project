@@ -17,7 +17,7 @@ const RegistrationForm = ({onReg}) => {
                 <button disabled={!login || !password || passwordRepeat !== password}
                         onClick={() => onReg(login, password)}>Submit
                 </button>
-                <p>Есть аккаунт?<a href="/log">Вход</a></p>
+                <p>Есть аккаунт?<a href="/login">Вход</a></p>
             </div>
         </RegistrForm >
     )}

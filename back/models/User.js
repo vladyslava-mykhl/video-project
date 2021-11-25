@@ -4,19 +4,20 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
         trim: true,
-        required: 'Please enter a phone number'
+        required: true,
+        unique: true
     },
     password: {
         type: String,
         select: false,
-        required: 'Please supply a password'
+        required: true
     },
     id: {
         type: String
     },
     username: {
         type: String,
-        required: 'Please enter a username',
+        required: true,
         trim: true,
         unique: true
     }

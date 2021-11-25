@@ -13,7 +13,7 @@ const LoginForm = ({onLogin}) => {
                     <input type="login" placeholder="Enter login" value = {login} onChange = {e => setLogin(e.target.value)}/>
                     <input type="password" placeholder="Password" value = {password} onChange = {e => setPassword(e.target.value)}/>
                     <button disabled = {!login || !password} onClick = {() => onLogin(login, password)}>Submit</button>
-                    <p>У вас ещё нет аккаунта?<a href="/reg">Зарегистрироваться</a></p>
+                    <p>У вас ещё нет аккаунта?<a href="/registration">Зарегистрироваться</a></p>
                 </div>
             </LogForm>
         </>

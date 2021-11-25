@@ -1,15 +1,16 @@
-const { Router } = require('express')
-const fileMiddleware = require('../middleware/file')
+const { Router } = require('express');
+const fileMiddleware = require('../middleware/file');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
 const ffprobe = require('ffprobe')
 const router = Router()
 const { uuid } = require('uuidv4');
-const authController = require('../controllers/authConroller')
-const fs = require('fs')
-const { getVideoDurationInSeconds } = require('get-video-duration')
-let converter = require('../middleware/convert')
-const takeScreenshot = require('../middleware/screenshot')
+const { body } = require('express-validator');
+const authController = require('../controllers/authConroller');
+const fs = require('fs');
+const { getVideoDurationInSeconds } = require('get-video-duration');
+let converter = require('../middleware/convert');
+const takeScreenshot = require('../middleware/screenshot');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 
@@ -43,6 +44,7 @@ router.post('/uploaded-video/:id', async(req, res) => {
 })
 
 /** User */
-router.post('/register', (authController.registerUser))
+router.post('/registration', (authController.registerUser))
+// router.post('/login', (authController.login))
 
 module.exports = router

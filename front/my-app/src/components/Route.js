@@ -14,8 +14,8 @@ const Routs = () => {
                 <NavBar/>
                 <Switch>
                     <Route path="/" exact component={Home}/>
-                    <Route path="/reg" component={RegistrationForm}/>
-                    <Route path="/log" component={LoginForm}/>
+                    <Route path="/registration" component={RegistrationForm}/>
+                    <Route path="/login" component={LoginForm}/>
                     <Route path="/ulpoad-video" component={VideoUpload}/>
                     <Route path="/uploaded-video" component={VideoUploaded}/>
                 </Switch>
