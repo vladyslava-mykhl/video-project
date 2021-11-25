@@ -1,21 +1,30 @@
-const mongoose = require('mongoose')
-const User = mongoose.model('User')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const {validationResult} = require('express-validator');
+const ApiError = require('../exceptions/api-error');
 
-exports.registerUser = async (req, res) => {
-    const user = await User.findOne({ phone: req.body.phone })
-    if (user) {
-        throw new Error('This user already exists')
+exports.registerUser = async (req, res, next) => {
+    try {
+        const user = await User.findOne({phone: req.body.phone});
+        if (user) {
+           throw ApiError.BadRequest('This user already exists');
+        };
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return next(ApiError.BadRequest('Validation error', errors.array()));
+        };
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const createdUser = await User.create({
+            phone: req.body.phone,
+            username: req.body.username,
+            password: hashedPassword
+        });
+        return res.json(createdUser)
+    } catch (e) {
+        next(e);
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    const createdUser = await (new User({
-        phone: req.body.phone,
-        username: req.body.username,
-        password: hashedPassword,
-    })).save()
-
-    res.json({ message: req.body })
 }
 
 // exports.login = async (req, res) => {

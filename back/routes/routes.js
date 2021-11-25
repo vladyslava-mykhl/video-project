@@ -5,7 +5,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const ffprobe = require('ffprobe')
 const router = Router()
 const { uuid } = require('uuidv4');
-const { body } = require('express-validator');
+const {body} = require('express-validator');
 const authController = require('../controllers/authConroller');
 const fs = require('fs');
 const { getVideoDurationInSeconds } = require('get-video-duration');
@@ -44,7 +44,10 @@ router.post('/uploaded-video/:id', async(req, res) => {
 })
 
 /** User */
-router.post('/registration', (authController.registerUser))
-// router.post('/login', (authController.login))
+router.post('/registration',
+    body('password').isLength({ min: 5, max: 32 }),
+    body('phone').
+    authController.registerUser
+);
 
 module.exports = router
