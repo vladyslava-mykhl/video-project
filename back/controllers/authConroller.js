@@ -21,11 +21,11 @@ exports.registerUser = async (req, res, next) => {
             username: req.body.username,
             password: hashedPassword
         });
-        return res.json(createdUser)
+        return res.json(createdUser);
     } catch (e) {
         next(e);
-    }
-}
+    };
+};
 
 exports.login = async (req, res, next) => {
     try {
@@ -33,16 +33,13 @@ exports.login = async (req, res, next) => {
         if (!user) {
             throw ApiError.BadRequest('This user does not exist');
         };
-
-        const preparedUser = Object.assign({}, user.toJSON(req))
+        const preparedUser = Object.assign({}, user.toJSON(req));
         const isPassEquals = await bcrypt.compare(req.body.password, user.password);
-        console.log(preparedUser)
         if (!isPassEquals) {
             throw ApiError.BadRequest('Invalid password');
-        }
-        return res.json({preparedUser})
+        };
+        return res.json({preparedUser});
     } catch (e) {
         next(e);
-    }
-}
-
+    };
+};

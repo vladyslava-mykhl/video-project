@@ -1,4 +1,3 @@
-
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
 const ffprobe = require('ffprobe');
@@ -26,6 +25,6 @@ const converter = (path) => {
             })
             .save(convertVideoPath);
     });
-}
+};
 
 module.exports = converter;
