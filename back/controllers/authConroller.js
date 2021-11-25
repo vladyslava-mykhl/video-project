@@ -27,23 +27,22 @@ exports.registerUser = async (req, res, next) => {
     }
 }
 
-// exports.login = async (req, res) => {
-//     passport.authenticate('local', { session: false }, (err, user, info) => {
-//         if (err || !user) {
-//             return res.status(400).json({
-//                 message: err.message
-//             })
-//         }
-//
-//         req.login(user, { session: false }, async err => {
-//             if (err) {
-//                 res.send(err)
-//             }
-//             const permissions = await user.getPermissions()
-//             const preparedUser = Object.assign({}, user.toJSON(req), { permissions })
-//             const token = jwt.sign(preparedUser, 'somesecrettoken')
-//             return res.json({ user: preparedUser, token })
-//         })
-//     })(req, res)
-// }
-//
+exports.login = async (req, res, next) => {
+    try {
+        const user = await User.findOne({phone: req.body.phone}).select("password");
+        if (!user) {
+            throw ApiError.BadRequest('This user does not exist');
+        };
+
+        const preparedUser = Object.assign({}, user.toJSON(req))
+        const isPassEquals = await bcrypt.compare(req.body.password, user.password);
+        console.log(preparedUser)
+        if (!isPassEquals) {
+            throw ApiError.BadRequest('Invalid password');
+        }
+        return res.json({preparedUser})
+    } catch (e) {
+        next(e);
+    }
+}
+

@@ -46,8 +46,8 @@ router.post('/uploaded-video/:id', async(req, res) => {
 /** User */
 router.post('/registration',
     body('password').isLength({ min: 5, max: 32 }),
-    body('phone').
     authController.registerUser
 );
+router.post('/login', authController.login);
 
 module.exports = router
