@@ -1,21 +1,36 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
+const axios = require('axios');
 
-const RegistrationForm = ({onReg}) => {
-    const [login, setLogin] = useState('')
+const RegistrationForm = () => {
+    const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
     const [passwordRepeat, setPasswordRepeat] = useState('')
+    const [username, setUsername] = useState('')
+    const onReg = (phone, password, username) => {
+        try {
+            axios.post('http://localhost:3000/registration', {
+                phone,
+                password,
+                username
+            }).then(response => console.log(response)).catch(error => alert(error.response.data.error));
+        } catch (e) {
+            alert(e)
+        }
+    }
     return (
         <RegistrForm >
             <div>
-                <input type="login" placeholder="Enter login" value={login}
-                       onChange={e => setLogin(e.target.value)}/>
-                <input type="password" placeholder="Password" value={password}
+                <input type="phone" placeholder="Enter phone" value={phone}
+                       onChange={e => setPhone(e.target.value)}/>
+                <input type="username" placeholder="Enter username" value={username}
+                       onChange={e => setUsername(e.target.value)}/>
+                <input type="password" placeholder="Enter password" value={password}
                        onChange={e => setPassword(e.target.value)}/>
-                <input type="password" placeholder="Repeat Password" value={passwordRepeat}
+                <input type="password" placeholder="Repeat password" value={passwordRepeat}
                        onChange={e => setPasswordRepeat(e.target.value)}/>
-                <button disabled={!login || !password || passwordRepeat !== password}
-                        onClick={() => onReg(login, password)}>Submit
+                <button disabled={!phone || !username || !password || passwordRepeat !== password}
+                        onClick={() => onReg(phone, password, username)}>Submit
                 </button>
                 <p>Есть аккаунт?<a href="/login">Вход</a></p>
             </div>
@@ -69,7 +84,6 @@ const RegistrForm  = styled.div`
   button:hover,button:active, button:focus {
     background: #97abc4;
   }
-
 `;
 
 //export const ConnectRegistrForm = connect(null, {onReg:actionFullRegister}) (RegistrForm)

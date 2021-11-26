@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) =>{
         cb(null, `${uuid()}.mp4`);
-    };
+    }
 });
 const types = ['video/mp4', 'video/webm', 'video/mov', 'video/ogg', 'video/quicktime'];
 

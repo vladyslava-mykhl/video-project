@@ -13,7 +13,7 @@ exports.registerUser = async (req, res, next) => {
         };
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return next(ApiError.BadRequest('Validation error', errors.array()));
+            throw ApiError.BadRequest('Validation error', errors.array());
         };
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const createdUser = await User.create({
@@ -29,11 +29,13 @@ exports.registerUser = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
     try {
-        const user = await User.findOne({phone: req.body.phone}).select("password");
+        const user = await User.findOne({phone: req.body.phone}).select("password").select("username");
         if (!user) {
             throw ApiError.BadRequest('This user does not exist');
         };
         const preparedUser = Object.assign({}, user.toJSON(req));
+        delete preparedUser.password;
+        console.log(preparedUser)
         const isPassEquals = await bcrypt.compare(req.body.password, user.password);
         if (!isPassEquals) {
             throw ApiError.BadRequest('Invalid password');
