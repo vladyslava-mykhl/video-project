@@ -13,9 +13,13 @@ const NavBar = () => {
                     <Navbar.Brand href="/">Navigation</Navbar.Brand>
                     <Nav className="me-auto">
                         <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/ulpoad-video">Upload Video</Nav.Link>
+                        <Nav.Link href="/get-all-video">Video</Nav.Link>
                         {isLoggedIn ?
-                            <Nav.Link onClick={onLogout}>Logout</Nav.Link> :
+                            <>
+                                <Nav.Link href="/ulpoad-video">Upload Video</Nav.Link>
+                                <Nav.Link onClick={onLogout}>Logout</Nav.Link>
+                            </>
+                            :
                             <>
                                 <Nav.Link href="/registration">Registration</Nav.Link>
                                 <Nav.Link href="/login">Login</Nav.Link>

@@ -53,3 +53,13 @@ exports.updateVideo = async (req, res, next) => {
         next(err);
     };
 }
+
+exports.getAllVideo = async (req, res, next) => {
+    try {
+        const video = await Video.find()
+        console.log(video)
+        res.json(video)
+    } catch (err) {
+        next(err);
+    };
+}
