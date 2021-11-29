@@ -1,10 +1,13 @@
 import  Routs from './components/Route';
-import React, {UseContext} from 'react';
+import React from 'react';
+import UserContextProvider from './context/UserContext';
 
 function App() {
     return (
-        <Routs/>
+        <UserContextProvider>
+            <Routs/>
+        </UserContextProvider>
     );
-}
+};
 
 export default App;

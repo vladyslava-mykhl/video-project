@@ -1,20 +1,26 @@
-import React from 'react';
-
-export const UserReducer = (state, action) => {
-    console.log(state)
+const UserReducer = (state, action) => {
     switch (action.type) {
-        case 'SET_USER':
+        case 'LOGIN':
             return {
-                ...state,
-                user: action.payload
+                isLoggedIn: true,
+                userId: action.payload.userId,
+                userName: action.payload.userName
             };
-        case "SET_ERROR":
+        case "LOGOUT":
             return {
-                ...state,
-                error: action.payload.error,
-                message: action.payload.message
+                isLoggedIn: false,
+                userId: "",
+                userName: ""
             };
+        // case "ERROR":
+        //     return {
+        //         ...state,
+        //         error: action.payload.error,
+        //         message: action.payload.message
+        //     };
         default:
             return state;
     };
 };
+
+export default UserReducer;

@@ -1,26 +1,31 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import history from '../components/history';
-import RegistrationForm from '../pages/Registration'
-import LoginForm from '../pages/Login'
+import RegistrationForm from '../pages/Registration';
+import LoginForm from '../pages/Login';
 import VideoUpload from "../pages/VideoUpload";
 import VideoUploaded from "../pages/VideoUploaded";
 import Home from  "../pages/Home";
 import NavBar from "../components/NavBar";
+import {useUser} from '../hooks/useUser';
 
 const Routs = () => {
-    console.log(localStorage.user)
+    const {isLoggedIn} = useUser();
     return (
         <>
             <Router history={history}>
                 <NavBar/>
                 <Switch>
                     <Route path="/" exact component={Home}/>
-                    { localStorage.user &&
+                    { isLoggedIn &&
                     <Route path="/login">
                         <Redirect to="/"/>
                     </Route> }
-                    { !localStorage &&
+                    { !isLoggedIn &&
                     <Route path="/logout">
+                        <Redirect to="/"/>
+                    </Route> }
+                    { isLoggedIn &&
+                    <Route path="/registration">
                         <Redirect to="/"/>
                     </Route> }
                     <Route path="/login" component={LoginForm}/>

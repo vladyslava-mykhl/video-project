@@ -1,23 +1,14 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
+import {useUser} from '../hooks/useUser';
 const axios = require('axios');
 
 const RegistrationForm = () => {
-    const [phone, setPhone] = useState('')
-    const [password, setPassword] = useState('')
-    const [passwordRepeat, setPasswordRepeat] = useState('')
-    const [username, setUsername] = useState('')
-    const onReg = (phone, password, username) => {
-        try {
-            axios.post('http://localhost:3000/registration', {
-                phone,
-                password,
-                username
-            }).then(response => console.log(response)).catch(error => alert(error.response.data.error));
-        } catch (e) {
-            alert(e)
-        }
-    }
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordRepeat, setPasswordRepeat] = useState('');
+    const [username, setUsername] = useState('');
+    const {onReg} = useUser();
     return (
         <RegistrForm >
             <div>

@@ -1,22 +1,11 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
-const axios = require('axios');
-
 
 const LoginForm = () => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
-    const onLog = (phone, password) => {
-        axios.post('http://localhost:3000/login', {
-            phone,
-            password,
-        }).then(response => {
-            const user = response.data.preparedUser;
-            localStorage.setItem('user', JSON.stringify(user));
-            window.location.replace("http://localhost:3001");
-        }).catch(error => alert(error.response.data.error));
-    };
+    const {onLog} = useUser();
     return (
         <>
             <LogForm>
@@ -73,7 +62,7 @@ const LogForm  = styled.div`
     color: rgba(0,149,246,1);;
   }
   p {
-    margin: 20px;
+    margin: 20px auto;
   }
   button:hover,button:active, button:focus {
     background: #97abc4;

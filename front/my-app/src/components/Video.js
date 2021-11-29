@@ -9,8 +9,7 @@ export const Video = ({video, second}) => {
     const [isLoading, setLoading] = useState(false);
     const [toggle, setToggle] = useState();
     const vidRef = useRef(null);
-    const videoHeight = vidRef?.current?.videoHeight
-    console.log(videoHeight)
+    const videoHeight = vidRef?.current?.videoHeight;
     const src = `http://localhost:3000/${video}#t=${second}`;
     const id = video?.slice(6, -4);
     const triggerToggle = () => {
