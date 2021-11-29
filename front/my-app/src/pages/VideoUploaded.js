@@ -29,6 +29,7 @@ const VideoUpload = () => {
                 const video = result?.video;
                 setPhotos(photo);
                 setVideo(video);
+                console.log(result)
             } catch (e) {
                 console.log(e);
             };

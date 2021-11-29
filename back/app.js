@@ -7,6 +7,7 @@ const port = 3000;
 const hostname = 'localhost';
 const error = require('./middleware/error');
 require('./models/User');
+require('./models/Video');
 
 app.use(cors());
 app.use(express.json({ extended: true}));
