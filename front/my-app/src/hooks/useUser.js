@@ -8,14 +8,11 @@ export const useUser = (phone, password) => {
     const { isLoggedIn } = state;
     toast.configure();
     useEffect(() => {
-        localStorage?.user &&
-            dispatch({
-                type: 'LOGIN',
-                payload: {
-                    userId: JSON.parse(localStorage.user)._id,
-                    userName: JSON.parse(localStorage.user).username
-                }
-            });
+        if (localStorage.user) {
+            loginUser(JSON.parse(localStorage.user))
+        } else {
+            onLogout();
+        }
     },[]);
     const onLog = (phone, password) => {
         axios.post('http://localhost:3000/login', {
@@ -23,14 +20,8 @@ export const useUser = (phone, password) => {
             password,
         }).then(response => {
             const user = response.data.preparedUser;
-            dispatch({
-                type: 'LOGIN',
-                payload: {
-                    userId: user._id,
-                    userName: user.username
-                }
-            });
             localStorage.setItem('user', JSON.stringify(user));
+            loginUser(user);
         }).catch(error => toast.error(error.response.data.error, {
             position: "top-center",
             autoClose: false,
@@ -45,13 +36,7 @@ export const useUser = (phone, password) => {
             username
         }).then(response => {
             const user = response.data;
-            dispatch({
-                type: 'LOGIN',
-                payload: {
-                    userId: user._id,
-                    userName: user.username
-                }
-            });
+            loginUser(user);
            localStorage.setItem('user', JSON.stringify(user));
            toast.success(`You have successfully registered and logged in`, {
                 position: "top-center",
@@ -66,12 +51,22 @@ export const useUser = (phone, password) => {
                 draggable: true
         }));
     };
-    const onLogout = () => {
+    function onLogout () {
         dispatch({
             type: 'LOGOUT'
         });
         localStorage.removeItem('user');
     };
+
+    function loginUser (user) {
+        dispatch({
+            type: 'LOGIN',
+            payload: {
+                userId: user._id,
+                userName: user.username
+            }
+        });
+    }
     return {onLog, onLogout, onReg, isLoggedIn, state};
 };
 

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
-const axios = require('axios');
 
 const RegistrationForm = () => {
     const [phone, setPhone] = useState('');

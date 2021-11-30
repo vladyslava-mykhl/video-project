@@ -5,7 +5,7 @@ import {useUser} from '../hooks/useUser';
 import styled from 'styled-components';
 
 const NavBar = () => {
-    const {onLogout, isLoggedIn, state} = useUser();
+    const {isLoggedIn, state} = useUser();
     return (
         <NavbarContainer>
             <Navbar bg="dark" variant="dark">
@@ -17,7 +17,7 @@ const NavBar = () => {
                         {isLoggedIn ?
                             <>
                                 <Nav.Link href="/ulpoad-video">Upload Video</Nav.Link>
-                                <Nav.Link onClick={onLogout}>Logout</Nav.Link>
+                                <Nav.Link href="/logout">Logout</Nav.Link>
                             </>
                             :
                             <>

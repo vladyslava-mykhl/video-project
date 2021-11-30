@@ -17,8 +17,8 @@ const LoginForm = () => {
                 </div>
             </LogForm>
         </>
-    )
-}
+    );
+};
 
 export default LoginForm;
 

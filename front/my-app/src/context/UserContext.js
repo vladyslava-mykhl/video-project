@@ -4,7 +4,7 @@ import UserReducer from '../reducers/userReducer';
 export const UserContext = React.createContext();
 
 const initializeState = {
-    isLoggedIn: false,
+    isLoggedIn: !!localStorage.getItem('user'),
     userId: "",
     userName: ""
 };

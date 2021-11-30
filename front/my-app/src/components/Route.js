@@ -1,5 +1,6 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import history from '../components/history';
+import Logout from '../components/Logout'
 import RegistrationForm from '../pages/Registration';
 import LoginForm from '../pages/Login';
 import VideoUpload from "../pages/VideoUpload";
@@ -16,28 +17,20 @@ const Routs = () => {
             <Router history={history}>
                 <NavBar/>
                 <Switch>
-                    <Route path="/" exact component={Home}/>
-                    { isLoggedIn &&
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/logout" >
+                        {!isLoggedIn ? <Redirect to="/"/> : <Logout/>}
+                    </Route>
                     <Route path="/login">
-                        <Redirect to="/"/>
-                    </Route> }
-                    <Route path="/logout">
-                        <Redirect to="/"/>
-                    </Route> }
-                    { isLoggedIn &&
+                        {isLoggedIn ? <Redirect to="/"/> : <LoginForm/>}
+                    </Route>
                     <Route path="/registration">
-                        <Redirect to="/"/>
+                        {isLoggedIn ? <Redirect to="/"/> : <RegistrationForm/>}
                     </Route>
-                    }
-                    { !isLoggedIn &&
                     <Route path="/ulpoad-video">
-                        <Redirect to="/login"/>
+                        {isLoggedIn ? <VideoUpload/> : <Redirect to="/login"/>}
                     </Route>
-                    }
-                    <Route path="/login" component={LoginForm}/>
-                    <Route path="/registration" component={RegistrationForm}/>
                     <Route path="/get-all-video" component={Video}/>
-                    <Route path="/ulpoad-video" component={VideoUpload}/>
                     <Route path="/uploaded-video" component={VideoUploaded}/>
                 </Switch>
             </Router>
