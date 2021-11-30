@@ -6,25 +6,31 @@ import Loader from "react-loader-spinner";
 import styled from 'styled-components';
 
 const AllVideo = () => {
-    const [photos, setPhotos] = useState([]);
+    const [data, setData] = useState();
+    console.log(data)
     const [loading, setLoading] = useState(null);
-    console.log(photos)
     useEffect(async () => {
         setLoading(true);
         axios.post("http://localhost:3000/get-all-video")
             .then(res => {
-                res.data.map(data => photos.push(data.screenPath[0]))
+                setData(res.data)
                 setLoading(false);
             })
             .catch(err => {
                 console.log(err)
                 setLoading(false);
         });
-    }, [0]);
+    }, []);
     return (
            <ScreenComponent>
-               {photos?.map(photo =>
-                   <img src={`http://localhost:3000/${photo}`} alt="screen"/>
+               { data?.map((data) =>
+                   <div className="post">
+                       <a href={data.id}><img src={`http://localhost:3000/${data.screenPath[0]}`} alt="screen"/></a>
+                       <div className="post-text">
+                           <p>{data.name}</p>
+                           <p>{data.createdAt.replace(/(?![^TZ])./g, ' ').slice(0, 19)}</p>
+                       </div>
+                   </div>
                )}
            </ScreenComponent>
     );
@@ -37,8 +43,16 @@ const ScreenComponent = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  img {
+  .post {
     width: 25%;
     margin: 20px;
+  }
+  .post-text {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+  }
+  img {
+    width: 100%;
   }
 `;

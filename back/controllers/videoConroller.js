@@ -17,15 +17,12 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 
 exports.getVideo = async (req, res, next) => {
     try {
-        const photoDirectoryPath = `public/video-screen/${req.params.id}/`;
-        const photo = [];
-        fs.readdirSync(photoDirectoryPath).forEach(file => photo.push(`video-screen/${req.params.id}/${file}`));
-        photo.sort((a, b) => a.split("/")[2].split(".")[0] - b.split("/")[2].split(".")[0]);
-        const video = await Video.findOne({ name: req.params.id })
+        const video = await Video.findOne({ id: req.params.id })
+        console.log(video)
         res.json({
             video: video.videoPath,
             name: video.name,
-            photo: photo
+            photo: video.screenPath
         });
     } catch (err) {
         res.status(500).send(err);
@@ -36,18 +33,22 @@ exports.updateVideo = async (req, res, next) => {
     try {
         const video = await converter(req.file.path);
         const photoPath = await takeScreenshot(video.name, video.convertVideoPath);
-        const videoName = await Video.findOne({name: video.name});
+        const videoName = await Video.findOne({id: video.name});
         if (videoName) {
             throw ApiError.BadRequest('This videoname already exists');
         };
-        const updateVideo = await Video.create({
-            name: video.name,
+        const uploadVideo = await Video.create({
+            id: video.name,
+            name: req.body.name,
             videoPath: video.convertVideoPath.slice(7),
-            screenPath: photoPath
+            screenPath: photoPath,
+            userId: req.body.userId
         });
         res.json({
+            id: video.name,
             video: video.convertVideoPath.slice(7),
-            id: video.name
+            name: req.body.name,
+            userId: req.body.userId,
         });
     } catch (err) {
         next(err);

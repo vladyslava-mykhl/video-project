@@ -15,13 +15,15 @@ const videoSchema = new mongoose.Schema({
         required: true
     },
     id: {
-        type: String
+        type: String,
+        required: true,
+        unique: true
     },
     category: {
         type: mongoose.Schema.ObjectId,
         ref: 'Category'
     },
-    user: {
+    userId: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },

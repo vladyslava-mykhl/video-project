@@ -7,18 +7,18 @@ import {FacebookShareButton, TelegramShareButton, EmailShareButton} from "react-
 import {FacebookIcon, TelegramIcon, EmailIcon} from "react-share";
 import styled from 'styled-components';
 
-export const CancelButton = ({file, onCancel}) => {
+export const CancelButton = ({onCancel}) => {
     return (
         <>
-            {file && <Button variant="secondary" onClick={onCancel}>Cancel</Button>}
+            <Button variant="secondary" onClick={onCancel}>Cancel</Button>
         </>
     );
 };
 
-export const SaveButton = ({file, onUpload}) => {
+export const SaveButton = ({onUpload}) => {
     return (
         <>
-            {file &&  <Button variant="secondary"  onClick={onUpload}>Save</Button>}
+           <Button variant="secondary"  onClick={onUpload}>Save</Button>
         </>
     );
 };

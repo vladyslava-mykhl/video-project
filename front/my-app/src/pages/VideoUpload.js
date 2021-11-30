@@ -9,14 +9,17 @@ import {VideoUploadForm} from '../components/VideoUploadForm';
 import Loader from "react-loader-spinner";
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import {useUser} from '../hooks/useUser';
 
 const VideoUpload = () => {
+    const {state} = useUser();
     const [initialVideoName, setInitialVideoName] = useState("Choose video");
     const [chosenVideo, setChosenVideo] = useState(null);
+    const [name, setName] = useState(null);
     const [uploadedVideo, setUploadedVideo] = useState(null);
     const [loading, setLoading] = useState(null);
     toast.configure();
-    const successToast = () => toast.success(`Videо ${initialVideoName} is uploaded`, {
+    const successToast = () => toast.success(`Videо ${name} is uploaded`, {
         position: "top-center",
         autoClose: 4000,
         closeOnClick: true,
@@ -34,6 +37,8 @@ const VideoUpload = () => {
         try {
             const data = new FormData();
             data.append('video', chosenVideo);
+            data.append('name', name);
+            data.append('userId', state.userId);
             const headers = {
                 headers: {
                     'content-type': 'multipart/form-data',
@@ -77,10 +82,12 @@ const VideoUpload = () => {
                 {loading ? <Loader type="TailSpin" color='#6c757d' height={150} width={150} className="video-upload"/> :
                     <div className="video-upload">
                         <VideoUploadForm handleFileChange={handleFileChange} name={initialVideoName} id={uploadedVideo?.id}/>
-                        {!uploadedVideo?.id && <UploadVideoButtons>
-                            <SaveButton file={chosenVideo} onUpload={onUpload}/>
-                            <CancelButton file={chosenVideo} onCancel={onCancel}/>
-                        </UploadVideoButtons> }
+                        {!uploadedVideo?.id && chosenVideo &&
+                            <UploadVideoButtons>
+                                <input type="text" placeholder="Enter video name" value={name} onChange={e => setName(e.target.value)}/>
+                                <SaveButton onUpload={onUpload}/>
+                                <CancelButton onCancel={onCancel}/>
+                            </UploadVideoButtons> }
                         {uploadedVideo?.id && <UploadedVideoButtons>
                             <div>
                                 <OpenButton href={uploadedVideo?.path}/>
@@ -97,7 +104,7 @@ export default VideoUpload;
 
 const UploadedVideoButtons = styled.div`
   display: flex;
-  align-items: baseline;
+  align-items: center;
   margin-top: 30px;
   flex-direction: column;
   a {
@@ -109,7 +116,16 @@ const UploadedVideoButtons = styled.div`
 `;
 
 const UploadVideoButtons = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 20px;
   a, button {
-    margin: 30px 10px;
+    margin: 0 5px;
+  }
+  input {
+    margin: 0 5px;
+  }
+  input:focus{
+    outline: none;
   }
 `;
