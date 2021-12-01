@@ -32,6 +32,7 @@ const VideoUpload = () => {
         draggable: true
     });
     const onUpload = async () => {
+        setName("");
         setLoading(true);
         setUploadedVideo({id: null});
         try {
@@ -65,6 +66,7 @@ const VideoUpload = () => {
     };
     const handleFileChange = (e) => {
         if (e.target.files[0]) {
+            setName("");
             setUploadedVideo({id: null});
             setChosenVideo(e.target.files[0]);
             setInitialVideoName(e.target.files[0].name);

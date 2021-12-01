@@ -23,7 +23,7 @@ const videoSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Category'
     },
-    userId: {
+    user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },
@@ -36,5 +36,6 @@ const videoSchema = new mongoose.Schema({
         default: 0
     }
 });
+
 
 module.exports = mongoose.model('Video', videoSchema);

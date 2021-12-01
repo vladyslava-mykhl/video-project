@@ -75,6 +75,14 @@ export const DownloadVideoButton = ({handleClick, isLoading}) => {
     );
 };
 
+export const FilterVideoButton = ({onToggle, toggle}) => {
+    return (
+        <>
+            <Button variant="secondary" onClick={()=>onToggle()}>{toggle ? "Show all video" : "Show my video"}</Button>
+        </>
+    );
+};
+
 const ShareButtonsBlock = styled.div`
   display: inline-block;
   margin: 0 15px;*

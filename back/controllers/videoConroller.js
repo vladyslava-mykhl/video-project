@@ -42,13 +42,13 @@ exports.updateVideo = async (req, res, next) => {
             name: req.body.name,
             videoPath: video.convertVideoPath.slice(7),
             screenPath: photoPath,
-            userId: req.body.userId
+            user: req.body.userId
         });
         res.json({
             id: video.name,
             video: video.convertVideoPath.slice(7),
             name: req.body.name,
-            userId: req.body.userId,
+            user: req.body.userId,
         });
     } catch (err) {
         next(err);
@@ -57,10 +57,21 @@ exports.updateVideo = async (req, res, next) => {
 
 exports.getAllVideo = async (req, res, next) => {
     try {
-        const video = await Video.find()
-        console.log(video)
-        res.json(video)
+        const video = await Video.find().populate('user').sort({createdAt: -1})
+        res.json(video);
     } catch (err) {
         next(err);
     };
 }
+
+exports.getUserVideo = async (req, res, next) => {
+    try {
+        const video = await Video.find().sort({createdAt: -1}).populate({
+            path: 'user',
+            match: {_id: { $eq: req.body.userId }}
+        });
+        res.json(video.filter(video => video.user !== null));
+    } catch (err) {
+        next(err);
+    };
+};
