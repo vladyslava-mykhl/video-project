@@ -3,19 +3,22 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {CancelButton, SaveButton, OpenButton, CopyButton, ShareButtons} from '../components/Buttons';
 import {VideoUploadForm} from '../components/VideoUploadForm';
 import Loader from "react-loader-spinner";
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
+import CategorySelect from '../components/CategorySelect'
 
 const VideoUpload = () => {
     const {state} = useUser();
     const [initialVideoName, setInitialVideoName] = useState("Choose video");
     const [chosenVideo, setChosenVideo] = useState(null);
     const [name, setName] = useState(null);
+    const [category, setCategory] = useState();
+    const [value, setValue] = useState();
     const [uploadedVideo, setUploadedVideo] = useState(null);
     const [loading, setLoading] = useState(null);
     toast.configure();
@@ -40,6 +43,7 @@ const VideoUpload = () => {
             data.append('video', chosenVideo);
             data.append('name', name);
             data.append('userId', state.userId);
+            data.append('categoryId', value);
             const headers = {
                 headers: {
                     'content-type': 'multipart/form-data',
@@ -87,6 +91,7 @@ const VideoUpload = () => {
                         {!uploadedVideo?.id && chosenVideo &&
                             <UploadVideoButtons>
                                 <input type="text" placeholder="Enter video name" value={name} onChange={e => setName(e.target.value)}/>
+                                <CategorySelect value={value} setValue={setValue}/>
                                 <SaveButton onUpload={onUpload}/>
                                 <CancelButton onCancel={onCancel}/>
                             </UploadVideoButtons> }

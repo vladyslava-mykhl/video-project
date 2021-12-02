@@ -6,17 +6,21 @@ import Loader from "react-loader-spinner";
 import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
 import {FilterVideoButton} from '../components/Buttons';
+import CategorySelect from '../components/CategorySelect'
 
 const AllVideo = () => {
     const {state} = useUser();
     const [toggle, setToggle] = useState(false);
-    const [data, setData] = useState();
+    const [video, setVideo] = useState([]);
+    const [category, setCategory] = useState();
     const [loading, setLoading] = useState(null);
+    const [value, setValue] = useState();
+    console.log(video)
     const onAllVideo = async() => {
         setLoading(true);
-        axios.post("http://localhost:3000/get-all-video")
+        axios.get("http://localhost:3000/get-all-video")
             .then(res => {
-                setData(res.data)
+                setVideo(res.data);
                 setLoading(false);
             })
             .catch(err => {
@@ -24,13 +28,27 @@ const AllVideo = () => {
                 setLoading(false);
             });
     };
-    const onFilter = async () => {
-        const data = {
-            userId: state.userId
-        }
-        axios.post("http://localhost:3000/get-user-video", data)
+    // const onUserVideo = async () => {
+    //     axios.get("http://localhost:3000/get-user-video", { params: {userId: state.userId}})
+    //         .then(res => {
+    //             const result = [...video].filter(x => res.data.some(y => y.name == x.name))
+    //             setVideo(result);
+    //             setLoading(false);
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //             setLoading(false);
+    //         });
+    // };
+    const onVideoFilter = async () => {
+        axios.get("http://localhost:3000/get-filter-video", {
+            params: {
+                categoryId: value,
+                userId: state.userId
+             }
+        })
             .then(res => {
-                setData(res.data)
+                setVideo(res.data);
                 setLoading(false);
             })
             .catch(err => {
@@ -43,19 +61,40 @@ const AllVideo = () => {
     }, []);
     const onToggle = () => {
         setToggle(!toggle)
-        toggle ? onAllVideo() : onFilter();
+        toggle ? onAllVideo() : onVideoFilter();
+    }
+    const onReset = () => {
+        setValue("");
+        onAllVideo();
+    }
+    const onWatched = (id) => {
+        axios.get("http://localhost:3000/get-views-video", { params: {videoId: id}})
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
     return (
         <>
            <FilterVideoButton toggle={toggle} onToggle={onToggle}/>
+           <CategorySelect value={value} setValue={setValue}/>
+            {value &&
+                <>
+                   <button onClick={onVideoFilter}>Choose</button>
+                   <button onClick={onReset}>Reset</button>
+                </>
+            }
            <ScreenComponent>
-               { data?.map((data) =>
+               { video.length === 0 ? <p>This category is empty</p> : video?.map((video) =>
                    <div className="post">
-                       <p>{data.user?.username}</p>
-                       <a href={data.id}><img src={`http://localhost:3000/${data.screenPath[0]}`} alt="screen"/></a>
+                       <p>{video.user?.username}</p>
+                       <a onClick={() => onWatched(video.id)} href={`http://localhost:3001/uploaded-video/${video.id}`}><img src={`http://localhost:3000/${video.screenPath[0]}`} alt="screen"/></a>
                        <div className="post-text">
-                           <p>{data.name}</p>
-                           <p>{data.createdAt.replace(/(?![^TZ])./g, ' ').slice(0, 19)}</p>
+                           <p>{video.name}</p>
+                           <p>{video.views}</p>
+                           <p>{video.createdAt.replace(/(?![^TZ])./g, ' ').slice(0, 19)}</p>
                        </div>
                    </div>
                )}

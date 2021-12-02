@@ -8,6 +8,7 @@ const hostname = 'localhost';
 const error = require('./middleware/error');
 require('./models/User');
 require('./models/Video');
+require('./models/Category');
 
 app.use(cors());
 app.use(express.json({ extended: true}));

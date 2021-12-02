@@ -18,7 +18,6 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 exports.getVideo = async (req, res, next) => {
     try {
         const video = await Video.findOne({ id: req.params.id })
-        console.log(video)
         res.json({
             video: video.videoPath,
             name: video.name,
@@ -29,7 +28,7 @@ exports.getVideo = async (req, res, next) => {
     };
 }
 
-exports.updateVideo = async (req, res, next) => {
+exports.uploadVideo = async (req, res, next) => {
     try {
         const video = await converter(req.file.path);
         const photoPath = await takeScreenshot(video.name, video.convertVideoPath);
@@ -42,13 +41,15 @@ exports.updateVideo = async (req, res, next) => {
             name: req.body.name,
             videoPath: video.convertVideoPath.slice(7),
             screenPath: photoPath,
-            user: req.body.userId
+            user: req.body.userId,
+            category: req.body.categoryId
         });
         res.json({
             id: video.name,
             video: video.convertVideoPath.slice(7),
             name: req.body.name,
             user: req.body.userId,
+            category: req.body.categoryId
         });
     } catch (err) {
         next(err);
@@ -58,20 +59,54 @@ exports.updateVideo = async (req, res, next) => {
 exports.getAllVideo = async (req, res, next) => {
     try {
         const video = await Video.find().populate('user').sort({createdAt: -1})
+        console.log(video)
         res.json(video);
     } catch (err) {
         next(err);
     };
 }
 
-exports.getUserVideo = async (req, res, next) => {
+// exports.getUserVideo = async (req, res, next) => {
+//     try {
+//         const video = await Video.find().sort({createdAt: -1})
+//             .populate({
+//                 path: 'user',
+//                 match: {_id: { $eq: req.query.userId }}
+//             });
+//         res.json(video.filter(video => video.user !== null));
+//     } catch (err) {
+//         next(err);
+//     };
+// };
+
+exports.getFilterVideo = async (req, res, next) => {
+    console.log(req.query.categoryId === undefined)
     try {
-        const video = await Video.find().sort({createdAt: -1}).populate({
-            path: 'user',
-            match: {_id: { $eq: req.body.userId }}
-        });
-        res.json(video.filter(video => video.user !== null));
+        const video = await Video.find().sort({createdAt: -1})
+            .populate({
+                path: 'category',
+                match: {_id: { $eq: req.query.categoryId}}
+            })
+            .populate({
+                path: 'user',
+                match: {_id: { $eq: req.query.userId }}
+            });
+        console.log(video)
+        res.json(video.filter(video => video.category !== null).filter(video => video.user !== null));
     } catch (err) {
         next(err);
+    };
+};
+
+exports.getViewsVideo = async (req, res, next) => {
+    try {
+        const views = await Video.findOneAndUpdate(
+            { id: req.query.videoId },
+            { $inc: { views: 1 } }
+        )
+        res.json(views)
+        console.log(views)
+    } catch (err) {
+        res.status(500).send(err);
     };
 };

@@ -8,6 +8,7 @@ const { uuid } = require('uuidv4');
 const {body} = require('express-validator');
 const authController = require('../controllers/authConroller');
 const videoController = require('../controllers/videoConroller');
+const categoryConroller = require('../controllers/categoryConroller');
 const fs = require('fs');
 const { getVideoDurationInSeconds } = require('get-video-duration');
 const converter = require('../middleware/convert');
@@ -16,11 +17,15 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 
 /** Video */
 
-router.post('/upload-video', fileMiddleware.single('video'),  videoController.updateVideo);
+router.post('/upload-video', fileMiddleware.single('video'),  videoController.uploadVideo);
 router.post('/uploaded-video/:id', videoController.getVideo);
-router.post('/get-all-video', videoController.getAllVideo);
-router.post('/get-user-video', videoController.getUserVideo);
+router.get('/get-all-video', videoController.getAllVideo);
+router.get('/get-filter-video', videoController.getFilterVideo);
+router.get('/get-views-video', videoController.getViewsVideo);
 
+/** Category */
+
+router.get('/get-categories', categoryConroller.getCategories);
 
 /** User */
 
