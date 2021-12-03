@@ -19,7 +19,6 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 
 router.post('/upload-video', fileMiddleware.single('video'),  videoController.uploadVideo);
 router.post('/uploaded-video/:id', videoController.getVideo);
-router.get('/get-all-video', videoController.getAllVideo);
 router.get('/get-filter-video', videoController.getFilterVideo);
 router.get('/get-views-video', videoController.getViewsVideo);
 

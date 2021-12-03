@@ -1,12 +1,11 @@
 import React, {useEffect} from "react";
 import {UserContext} from "../context/UserContext";
-import { toast } from 'react-toastify';
+import {successToast, errorToast} from '../components/Toasts'
 const axios = require('axios');
 
 export const useUser = (phone, password) => {
     const { state, dispatch } = React.useContext(UserContext);
     const { isLoggedIn } = state;
-    toast.configure();
     useEffect(() => {
         if (localStorage.user) {
             loginUser(JSON.parse(localStorage.user))
@@ -22,12 +21,7 @@ export const useUser = (phone, password) => {
             const user = response.data.preparedUser;
             localStorage.setItem('user', JSON.stringify(user));
             loginUser(user);
-        }).catch(error => toast.error(error.response.data.error, {
-            position: "top-center",
-            autoClose: false,
-            closeOnClick: true,
-            draggable: true
-        }));
+        }).catch(error => errorToast(error.response.data.error))
     };
     const onReg = (phone, password, username) => {
         axios.post('http://localhost:3000/registration', {
@@ -37,19 +31,9 @@ export const useUser = (phone, password) => {
         }).then(response => {
             const user = response.data;
             loginUser(user);
-           localStorage.setItem('user', JSON.stringify(user));
-           toast.success(`You have successfully registered and logged in`, {
-                position: "top-center",
-                autoClose: 4000,
-                closeOnClick: true,
-                draggable: true
-           });
-        }).catch(error => toast.error(error.response.data.error, {
-                position: "top-center",
-                autoClose: false,
-                closeOnClick: true,
-                draggable: true
-        }));
+            localStorage.setItem('user', JSON.stringify(user));
+            successToast(`You have successfully registered and logged in`)
+        }).catch(error => errorToast(error.response.data.error))
     };
     function onLogout () {
         dispatch({

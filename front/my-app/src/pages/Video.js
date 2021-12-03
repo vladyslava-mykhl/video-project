@@ -5,105 +5,75 @@ import React, {useState, useEffect} from "react";
 import Loader from "react-loader-spinner";
 import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
-import {FilterVideoButton} from '../components/Buttons';
-import CategorySelect from '../components/CategorySelect'
+import {errorToast} from '../components/Toasts'
+import {FilterVideoButton, CancelButton} from '../components/Buttons';
+import CategorySelect from '../components/CategorySelect';
 
-const AllVideo = () => {
+const ShowVideo = () => {
     const {state} = useUser();
-    const [toggle, setToggle] = useState(false);
     const [video, setVideo] = useState([]);
-    const [category, setCategory] = useState();
-    const [loading, setLoading] = useState(null);
-    const [value, setValue] = useState();
-    console.log(video)
-    const onAllVideo = async() => {
+    const [loading, setLoading] = useState(false);
+    const [isMy, setIsMy] = useState(false);
+    const [isSelectCategory, setIsSelectCategory] = useState("");
+    const onVideoFilter = () => {
         setLoading(true);
-        axios.get("http://localhost:3000/get-all-video")
+        const query = {};
+        if (isSelectCategory) query.category = isSelectCategory;
+        if (isMy) query.user = state.userId;
+        axios.get("http://localhost:3000/get-filter-video", {params: query})
             .then(res => {
                 setVideo(res.data);
                 setLoading(false);
             })
-            .catch(err => {
-                console.log(err)
-                setLoading(false);
-            });
+            .catch(error => errorToast(error.message));
     };
-    // const onUserVideo = async () => {
-    //     axios.get("http://localhost:3000/get-user-video", { params: {userId: state.userId}})
-    //         .then(res => {
-    //             const result = [...video].filter(x => res.data.some(y => y.name == x.name))
-    //             setVideo(result);
-    //             setLoading(false);
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //             setLoading(false);
-    //         });
-    // };
-    const onVideoFilter = async () => {
-        axios.get("http://localhost:3000/get-filter-video", {
-            params: {
-                categoryId: value,
-                userId: state.userId
-             }
-        })
-            .then(res => {
-                setVideo(res.data);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.log(err)
-                setLoading(false);
-            });
-    };
-    useEffect(() => {
-        onAllVideo();
-    }, []);
-    const onToggle = () => {
-        setToggle(!toggle)
-        toggle ? onAllVideo() : onVideoFilter();
-    }
-    const onReset = () => {
-        setValue("");
-        onAllVideo();
+    const onCancel = () => {
+        setIsSelectCategory("");
+        onVideoFilter();
     }
     const onWatched = (id) => {
         axios.get("http://localhost:3000/get-views-video", { params: {videoId: id}})
             .then(res => {
                 console.log(res);
             })
-            .catch(err => {
-                console.log(err);
-            });
-    }
+            .catch(error => errorToast(error.message));
+    };
+    useEffect(() => {
+        if(!loading) {
+            setLoading(true);
+            onVideoFilter();
+        }
+
+    }, [isMy, isSelectCategory]);
     return (
         <>
-           <FilterVideoButton toggle={toggle} onToggle={onToggle}/>
-           <CategorySelect value={value} setValue={setValue}/>
-            {value &&
+            {loading ? <Loader type="TailSpin" color='#6c757d' height={150} width={150} className="video-upload"/> :
                 <>
-                   <button onClick={onVideoFilter}>Choose</button>
-                   <button onClick={onReset}>Reset</button>
+                    <FilterVideoButton isMy={isMy} onToggle={() => setIsMy(!isMy)}/>
+                    <CategorySelect isSelectCategory={isSelectCategory} setIsSelectCategory={setIsSelectCategory}/>
+                    {isSelectCategory && <CancelButton onCancel={onCancel}/>}
+                    <ScreenComponent>
+                        {video.length === 0 ? <p>This category is empty</p> : video?.map((video) =>
+                        <div key={video.videoPath} className="post">
+                            <p key={video.user.username}> {video.user?.username}</p>
+                            <a key={video.screenPath[0]} onClick={() => onWatched(video.id)} href={`http://localhost:3001/uploaded-video/${video.id}`}>
+                                <img key={video.screenPath[0]} src={`http://localhost:3000/${video.screenPath[0]}`} alt="screen"/>
+                            </a>
+                            <div key={video.videoPath} className="post-text">
+                                <p key={video.name}>{video.name}</p>
+                                <p key={video.name + video.views}>{video.views}</p>
+                                <p key={video.id}>{video.createdAt.replace(/(?![^TZ])./g, ' ').slice(0, 19)}</p>
+                            </div>
+                        </div>
+                        )}
+                    </ScreenComponent>
                 </>
             }
-           <ScreenComponent>
-               { video.length === 0 ? <p>This category is empty</p> : video?.map((video) =>
-                   <div className="post">
-                       <p>{video.user?.username}</p>
-                       <a onClick={() => onWatched(video.id)} href={`http://localhost:3001/uploaded-video/${video.id}`}><img src={`http://localhost:3000/${video.screenPath[0]}`} alt="screen"/></a>
-                       <div className="post-text">
-                           <p>{video.name}</p>
-                           <p>{video.views}</p>
-                           <p>{video.createdAt.replace(/(?![^TZ])./g, ' ').slice(0, 19)}</p>
-                       </div>
-                   </div>
-               )}
-           </ScreenComponent>
-</>
+        </>
     );
 };
 
-export default AllVideo;
+export default ShowVideo;
 
 const ScreenComponent = styled.div`
   display: flex;

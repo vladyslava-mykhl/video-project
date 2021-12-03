@@ -26,6 +26,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.2.0",
     "mongoose": "^6.0.13",
+    "mongoose-find-and-filter": "^1.0.0",
     "multer": "^1.4.3",
     "node-ffprobe": "github:ListenerApproved/node-ffprobe",
     "path": "^0.12.7",

@@ -15,10 +15,10 @@ export const CancelButton = ({onCancel}) => {
     );
 };
 
-export const SaveButton = ({onUpload}) => {
+export const SaveButton = ({onUpload, videoName, isSelectCategory}) => {
     return (
         <>
-           <Button variant="secondary"  onClick={onUpload}>Save</Button>
+           <Button disabled = {!videoName || !isSelectCategory} variant="secondary"  onClick={onUpload}>Save</Button>
         </>
     );
 };
@@ -75,10 +75,10 @@ export const DownloadVideoButton = ({handleClick, isLoading}) => {
     );
 };
 
-export const FilterVideoButton = ({onToggle, toggle}) => {
+export const FilterVideoButton = ({onToggle, isMy}) => {
     return (
         <>
-            <Button variant="secondary" onClick={()=>onToggle()}>{toggle ? "Show all video" : "Show my video"}</Button>
+            <Button variant="secondary" onClick={()=>onToggle()}>{isMy ? "Show all video" : "Show my video"}</Button>
         </>
     );
 };

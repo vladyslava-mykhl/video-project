@@ -1,76 +1,56 @@
 import '../App.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import React, {useState, useEffect} from "react";
 import {CancelButton, SaveButton, OpenButton, CopyButton, ShareButtons} from '../components/Buttons';
 import {VideoUploadForm} from '../components/VideoUploadForm';
 import Loader from "react-loader-spinner";
-import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
-import CategorySelect from '../components/CategorySelect'
+import {successToast, errorToast} from '../components/Toasts'
+import CategorySelect from '../components/CategorySelect';
 
 const VideoUpload = () => {
     const {state} = useUser();
     const [initialVideoName, setInitialVideoName] = useState("Choose video");
     const [chosenVideo, setChosenVideo] = useState(null);
-    const [name, setName] = useState(null);
-    const [category, setCategory] = useState();
-    const [value, setValue] = useState();
+    const [videoName, setVideoName] = useState(null);
+    const [isSelectCategory, setIsSelectCategory] = useState("");
     const [uploadedVideo, setUploadedVideo] = useState(null);
     const [loading, setLoading] = useState(null);
-    toast.configure();
-    const successToast = () => toast.success(`Videо ${name} is uploaded`, {
-        position: "top-center",
-        autoClose: 4000,
-        closeOnClick: true,
-        draggable: true
-    });
-    const errorToast = (err) => toast.error(err, {
-        position: "top-center",
-        autoClose: 4000,
-        closeOnClick: true,
-        draggable: true
-    });
     const onUpload = async () => {
-        setName("");
+        setVideoName("");
         setLoading(true);
         setUploadedVideo({id: null});
-        try {
-            const data = new FormData();
-            data.append('video', chosenVideo);
-            data.append('name', name);
-            data.append('userId', state.userId);
-            data.append('categoryId', value);
-            const headers = {
-                headers: {
-                    'content-type': 'multipart/form-data',
-                },
-            };
-            const uploadVideoUrl = "http://localhost:3000/upload-video";
-            const uploadedVideoUrl = `http://localhost:3001/uploaded-video/`;
-            const result = await axios.post(uploadVideoUrl, data, headers)
-                .then(resp => {
-                    successToast();
-                    return resp.data;
-                })
-                .catch(err => errorToast(err));
-            setUploadedVideo({id: result.id, path: uploadedVideoUrl + result?.id});
-            setLoading(false);
-        } catch (e) {
-            setLoading(false);
-            console.log(e);
+        const data = new FormData();
+        data.append('video', chosenVideo);
+        data.append('name', videoName);
+        data.append('userId', state.userId);
+        data.append('categoryId', isSelectCategory);
+        const headers = {
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
         };
+        const uploadVideoUrl = "http://localhost:3000/upload-video";
+        const uploadedVideoUrl = `http://localhost:3001/uploaded-video/`;
+        await axios.post(uploadVideoUrl, data, headers)
+            .then(resp => {
+                successToast(`Videо ${videoName} is uploaded`)
+                setUploadedVideo({id: resp.data.id, path: uploadedVideoUrl + resp.data.id});
+                setLoading(false);
+            })
+            .catch(err => errorToast(err.message));
     };
     const onCancel = () => {
+        setIsSelectCategory("");
         setChosenVideo(null);
         setInitialVideoName("Choose video");
     };
     const handleFileChange = (e) => {
         if (e.target.files[0]) {
-            setName("");
+            setVideoName("");
             setUploadedVideo({id: null});
             setChosenVideo(e.target.files[0]);
             setInitialVideoName(e.target.files[0].name);
@@ -84,28 +64,28 @@ const VideoUpload = () => {
         };
     };
     return (
-            <div className="App">
-                {loading ? <Loader type="TailSpin" color='#6c757d' height={150} width={150} className="video-upload"/> :
-                    <div className="video-upload">
-                        <VideoUploadForm handleFileChange={handleFileChange} name={initialVideoName} id={uploadedVideo?.id}/>
-                        {!uploadedVideo?.id && chosenVideo &&
-                            <UploadVideoButtons>
-                                <input type="text" placeholder="Enter video name" value={name} onChange={e => setName(e.target.value)}/>
-                                <CategorySelect value={value} setValue={setValue}/>
-                                <SaveButton onUpload={onUpload}/>
-                                <CancelButton onCancel={onCancel}/>
-                            </UploadVideoButtons> }
-                        {uploadedVideo?.id && <UploadedVideoButtons>
-                            <div>
-                                <OpenButton href={uploadedVideo?.path}/>
-                                <CopyButton copyToClipboard={copyTextToClipboard}>Copy</CopyButton>
-                                <ShareButtons url={uploadedVideo?.path}/>
-                            </div>
-                        </UploadedVideoButtons> }
-                    </div> }
-            </div>
-        );
-    };
+        <>
+            {loading ? <Loader type="TailSpin" color='#6c757d' height={150} width={150} className="video-upload"/> :
+            <div className="video-upload">
+                <VideoUploadForm handleFileChange={handleFileChange} name={initialVideoName} id={uploadedVideo?.id}/>
+                {!uploadedVideo?.id && chosenVideo &&
+                    <UploadVideoButtons>
+                        <input type="text" placeholder="Enter video name" value={videoName} onChange={e => setVideoName(e.target.value)}/>
+                        <CategorySelect isSelectCategory={isSelectCategory} setIsSelectCategory={setIsSelectCategory}/>
+                        <SaveButton videoName={videoName} isSelectCategory={isSelectCategory} onUpload={onUpload}/>
+                        <CancelButton onCancel={onCancel}/>
+                    </UploadVideoButtons> }
+                {uploadedVideo?.id && <UploadedVideoButtons>
+                    <div>
+                        <OpenButton href={uploadedVideo?.path}/>
+                        <CopyButton copyToClipboard={copyTextToClipboard}>Copy</CopyButton>
+                        <ShareButtons url={uploadedVideo?.path}/>
+                    </div>
+                </UploadedVideoButtons> }
+            </div> }
+        </>
+    );
+};
 
 export default VideoUpload;
 
