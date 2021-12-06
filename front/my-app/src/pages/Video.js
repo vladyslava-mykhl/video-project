@@ -5,7 +5,7 @@ import React, {useState, useEffect} from "react";
 import Loader from "react-loader-spinner";
 import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
-import {errorToast} from '../components/Toasts'
+import {notification} from '../components/Toasts';
 import {FilterVideoButton, CancelButton} from '../components/Buttons';
 import CategorySelect from '../components/CategorySelect';
 
@@ -25,25 +25,24 @@ const ShowVideo = () => {
                 setVideo(res.data);
                 setLoading(false);
             })
-            .catch(error => errorToast(error.message));
+            .catch(error => notification('error', error.message));
     };
     const onCancel = () => {
         setIsSelectCategory("");
         onVideoFilter();
-    }
+    };
     const onWatched = (id) => {
         axios.get("http://localhost:3000/get-views-video", { params: {videoId: id}})
             .then(res => {
                 console.log(res);
             })
-            .catch(error => errorToast(error.message));
+            .catch(error => notification('error',error.message));
     };
     useEffect(() => {
         if(!loading) {
             setLoading(true);
             onVideoFilter();
-        }
-
+        };
     }, [isMy, isSelectCategory]);
     return (
         <>

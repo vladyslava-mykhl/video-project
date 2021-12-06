@@ -8,7 +8,7 @@ import {VideoUploadForm} from '../components/VideoUploadForm';
 import Loader from "react-loader-spinner";
 import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
-import {successToast, errorToast} from '../components/Toasts'
+import {notification} from '../components/Toasts';
 import CategorySelect from '../components/CategorySelect';
 
 const VideoUpload = () => {
@@ -37,11 +37,11 @@ const VideoUpload = () => {
         const uploadedVideoUrl = `http://localhost:3001/uploaded-video/`;
         await axios.post(uploadVideoUrl, data, headers)
             .then(resp => {
-                successToast(`Videо ${videoName} is uploaded`)
+                notification('success', `Videо ${videoName} is uploaded`)
                 setUploadedVideo({id: resp.data.id, path: uploadedVideoUrl + resp.data.id});
                 setLoading(false);
             })
-            .catch(err => errorToast(err.message));
+            .catch(err => notification('error', err.message));
     };
     const onCancel = () => {
         setIsSelectCategory("");

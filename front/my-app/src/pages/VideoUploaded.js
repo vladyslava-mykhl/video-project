@@ -4,7 +4,7 @@ import React, {useState, useEffect } from "react";
 import {Video} from '../components/Video';
 import {Photo} from '../components/Carousel';
 import styled from 'styled-components';
-import {errorToast} from '../components/Toasts'
+import {notification} from '../components/Toasts';
 
 const VideoUpload = () => {
     const [photos, setPhotos] = useState(null);
@@ -24,7 +24,7 @@ const VideoUpload = () => {
         const onUpload = async () => {
             setPhotos(null);
             setVideo(null);
-            const result = await axios.post(url, data, headers).then(resp => resp.data).catch((err) => errorToast(err.message));
+            const result = await axios.post(url, data, headers).then(resp => resp.data).catch((err) => notification('error', err.message));
             const photo = result?.photo;
             const video = result?.video;
             setPhotos(photo);

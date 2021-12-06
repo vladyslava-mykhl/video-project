@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {UserContext} from "../context/UserContext";
-import {successToast, errorToast} from '../components/Toasts'
+import {notification} from '../components/Toasts';
 const axios = require('axios');
 
 export const useUser = (phone, password) => {
@@ -11,7 +11,7 @@ export const useUser = (phone, password) => {
             loginUser(JSON.parse(localStorage.user))
         } else {
             onLogout();
-        }
+        };
     },[]);
     const onLog = (phone, password) => {
         axios.post('http://localhost:3000/login', {
@@ -21,7 +21,7 @@ export const useUser = (phone, password) => {
             const user = response.data.preparedUser;
             localStorage.setItem('user', JSON.stringify(user));
             loginUser(user);
-        }).catch(error => errorToast(error.response.data.error))
+        }).catch(error => notification('error', error.response.data.error))
     };
     const onReg = (phone, password, username) => {
         axios.post('http://localhost:3000/registration', {
@@ -32,8 +32,8 @@ export const useUser = (phone, password) => {
             const user = response.data;
             loginUser(user);
             localStorage.setItem('user', JSON.stringify(user));
-            successToast(`You have successfully registered and logged in`)
-        }).catch(error => errorToast(error.response.data.error))
+            notification('success', `You have successfully registered and logged in`);
+        }).catch(error => notification('error', error.response.data.error))
     };
     function onLogout () {
         dispatch({
@@ -41,7 +41,6 @@ export const useUser = (phone, password) => {
         });
         localStorage.removeItem('user');
     };
-
     function loginUser (user) {
         dispatch({
             type: 'LOGIN',
@@ -50,7 +49,7 @@ export const useUser = (phone, password) => {
                 userName: user.username
             }
         });
-    }
+    };
     return {onLog, onLogout, onReg, isLoggedIn, state};
 };
 

@@ -25,7 +25,8 @@ const RegistrationForm = () => {
                 <p>Есть аккаунт?<a href="/login">Вход</a></p>
             </div>
         </RegistrForm >
-    )}
+    );
+};
 
 export default RegistrationForm;
 
@@ -75,6 +76,4 @@ const RegistrForm  = styled.div`
     background: #97abc4;
   }
 `;
-
-//export const ConnectRegistrForm = connect(null, {onReg:actionFullRegister}) (RegistrForm)
 

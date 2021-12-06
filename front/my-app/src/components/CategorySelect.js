@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
-import {errorToast} from '../components/Toasts'
+import {notification} from '../components/Toasts';
 
 const CategorySelect = ({isSelectCategory, setIsSelectCategory}) => {
     const [categories, setCategories] = useState([]);
@@ -9,12 +9,12 @@ const CategorySelect = ({isSelectCategory, setIsSelectCategory}) => {
         const fetchData = async () => {
             const response = await axios.get("http://localhost:3000/get-categories")
                 .then(res => (componentMounted && setCategories(res.data)))
-                .catch(e => errorToast(e))
+                .catch(e => notification('error', e))
         }
         fetchData();
         return () => {
             componentMounted = false;
-        }
+        };
     }, []);
     return (
         <>
