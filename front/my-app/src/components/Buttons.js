@@ -1,5 +1,4 @@
-import {Button} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import {FormGroup, FormControlLabel, Switch, Button, Link} from '@mui/material';
 import React from "react";
 import {faPause, faPlay, faDownload} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +9,7 @@ import styled from 'styled-components';
 export const CancelButton = ({onCancel}) => {
     return (
         <>
-            <Button variant="secondary" onClick={onCancel}>Cancel</Button>
+            <Button variant="outlined" onClick={onCancel}>Cancel</Button>
         </>
     );
 };
@@ -18,7 +17,7 @@ export const CancelButton = ({onCancel}) => {
 export const SaveButton = ({onUpload, videoName, isSelectCategory}) => {
     return (
         <>
-           <Button disabled = {!videoName || !isSelectCategory} variant="secondary"  onClick={onUpload}>Save</Button>
+           <Button variant="outlined" disabled = {!videoName || !isSelectCategory} onClick={onUpload}>Save</Button>
         </>
     );
 };
@@ -26,7 +25,7 @@ export const SaveButton = ({onUpload, videoName, isSelectCategory}) => {
 export const OpenButton = ({href}) => {
     return (
         <>
-            <a href={href} className="btn btn-outline-secondary">Click to open</a>
+            <Link variant="body2" underline="none" href={href}>OPEN</Link>
         </>
     );
 };
@@ -34,7 +33,7 @@ export const OpenButton = ({href}) => {
 export const CopyButton = ({copyToClipboard, text}) => {
     return (
         <>
-            <Button variant="outline-secondary" onClick={copyToClipboard}>Copy</Button>
+            <Button onClick={copyToClipboard}>Copy</Button>
         </>
     );
 };
@@ -69,7 +68,7 @@ export const DownloadVideoButton = ({handleClick, isLoading}) => {
     return (
         <>
             <Button variant="dark" disabled={isLoading} onClick={!isLoading ? handleClick : null}>
-            <span><FontAwesomeIcon icon={faDownload} />{isLoading ? 'Loading…' : 'Click to load'}</span>
+                <span><FontAwesomeIcon icon={faDownload} />{isLoading ? 'Loading…' : 'Click to load'}</span>
             </Button>
         </>
     );
@@ -77,9 +76,10 @@ export const DownloadVideoButton = ({handleClick, isLoading}) => {
 
 export const FilterVideoButton = ({onToggle, isMy}) => {
     return (
-        <>
-            <Button variant="secondary" onClick={()=>onToggle()}>{isMy ? "Show all video" : "Show my video"}</Button>
-        </>
+        <FormGroup>
+            <FormControlLabel control={<Switch onChange={()=>onToggle()} checked={isMy} />} label="Show my video" />
+        </FormGroup>
+
     );
 };
 

@@ -28,7 +28,7 @@ exports.getVideo = async (req, res, next) => {
     } catch (err) {
         next(err);
     };
-}
+};
 
 exports.uploadVideo = async (req, res, next) => {
     try {

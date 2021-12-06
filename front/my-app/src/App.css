@@ -48,3 +48,14 @@ body{
   align-items: center;
   justify-content: center;
 }
+
+MuiOutlinedInput-root {
+  position: relative;
+}
+
+.MuiIconButton-sizeSmall {
+  top: 14px;
+  right: 21px;
+  display: inline;
+  position: absolute !important;
+}

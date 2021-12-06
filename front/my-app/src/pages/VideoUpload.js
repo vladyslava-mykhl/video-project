@@ -2,10 +2,11 @@ import '../App.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {CancelButton, SaveButton, OpenButton, CopyButton, ShareButtons} from '../components/Buttons';
 import {VideoUploadForm} from '../components/VideoUploadForm';
 import Loader from "react-loader-spinner";
+import { TextField } from '@mui/material';
 import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
 import {notification} from '../components/Toasts';
@@ -69,16 +70,20 @@ const VideoUpload = () => {
             <div className="video-upload">
                 <VideoUploadForm handleFileChange={handleFileChange} name={initialVideoName} id={uploadedVideo?.id}/>
                 {!uploadedVideo?.id && chosenVideo &&
-                    <UploadVideoButtons>
-                        <input type="text" placeholder="Enter video name" value={videoName} onChange={e => setVideoName(e.target.value)}/>
+                    <>
+                    <TextFields>
+                        <TextField id="outlined-basic" label="Videoname" variant="outlined" value={videoName} onChange={e => setVideoName(e.target.value)}/>
                         <CategorySelect isSelectCategory={isSelectCategory} setIsSelectCategory={setIsSelectCategory}/>
+                    </TextFields>
+                    <UploadVideoButtons>
                         <SaveButton videoName={videoName} isSelectCategory={isSelectCategory} onUpload={onUpload}/>
                         <CancelButton onCancel={onCancel}/>
-                    </UploadVideoButtons> }
+                    </UploadVideoButtons>
+                    </>}
                 {uploadedVideo?.id && <UploadedVideoButtons>
                     <div>
-                        <OpenButton href={uploadedVideo?.path}/>
                         <CopyButton copyToClipboard={copyTextToClipboard}>Copy</CopyButton>
+                        <OpenButton href={uploadedVideo?.path}/>
                         <ShareButtons url={uploadedVideo?.path}/>
                     </div>
                 </UploadedVideoButtons> }
@@ -115,4 +120,10 @@ const UploadVideoButtons = styled.div`
   input:focus{
     outline: none;
   }
+  
+`;
+const TextFields = styled.div`
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
 `;
