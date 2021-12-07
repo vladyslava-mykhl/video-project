@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Card from '@mui/material/Card';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CardHeader from '@mui/material/CardHeader';
-import { lightBlue } from '@mui/material/colors';
+import { blueGrey } from '@mui/material/colors';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -19,7 +19,7 @@ const Post = ({onWatched, video}) => {
                             title={video.user?.username}
                             subheader={new Date(video.createdAt).toLocaleString('en-us', { month: 'long',  year: 'numeric', day: 'numeric' })}
                         />
-                         <a href={`http://localhost:3001/uploaded-video/${video.id}`}>
+                         <a onClick={()=>onWatched(video.id)} href={`http://localhost:3001/uploaded-video/${video.id}`}>
                             <CardMedia
                                 component="img"
                                 height="194"
@@ -29,10 +29,11 @@ const Post = ({onWatched, video}) => {
                         </a>
                         <CardContent>
                             <Typography variant="body2" color="text.secondary">{video.name}</Typography>
+                            <CardActions disableSpacing>
+                                <Typography>{video.views}</Typography>
+                                <VisibilityIcon  sx={{color: blueGrey[500]}}/>
+                            </CardActions>
                         </CardContent>
-                        <CardActions disableSpacing>
-                            <Typography>{video.views}<VisibilityIcon  sx={{color: lightBlue[500]}}/></Typography>
-                        </CardActions>
                     </Card>
                 )}
         </CardsContainer>
@@ -47,12 +48,30 @@ const CardsContainer = styled.div`
      flex-wrap: wrap !important;
      justify-content: center;
      .MuiPaper-root {
-       width: 25%;
        margin: 20px;
+       -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+       -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+       box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+       border-radius: 3%;
+       transition: all 500ms;
      }
-  .MuiCardContent-root, .MuiCardHeader-content  {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
+      .MuiPaper-root:hover {
+        transform: scale(1.05);
+      }
+      .MuiCardContent-root, .MuiCardHeader-content  {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      .MuiCardActions-root {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+          p {
+            margin: 0 5px;
+        }
+      }
+    .MuiCardContent-root {
+      padding: 15px !important;
+    }
 `

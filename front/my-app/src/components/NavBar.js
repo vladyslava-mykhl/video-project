@@ -26,7 +26,7 @@ const NavBar = () => {
                             </>
                         }
                     </Nav>
-                    {state.userName && <p>{`user ${state.userName}`}</p>}
+                    {state.userName && <p>{state.userName}</p>}
                 </Container>
             </Navbar>
         </NavbarContainer>
@@ -37,7 +37,10 @@ export default NavBar;
 
 const NavbarContainer = styled.div`
    p {
-      color: rgba(255,255,255,.55);
-      margin: 0 auto;
+     color: rgba(255,255,255,.55);
+     transition: auto;
+     font-weight: 600;
+     margin: 0 auto;
+     text-transform: uppercase;
     }
 `;

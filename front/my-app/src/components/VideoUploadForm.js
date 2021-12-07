@@ -14,7 +14,9 @@ export const VideoUploadForm = ({handleFileChange, name, id}) => {
 };
 
 const CustomFileUpload = styled.label`
-  border: 1px dashed #000;
+  -webkit-box-shadow: 0px 5px 10px 2px rgba(7, 35, 56, 0.3);
+  -moz-box-shadow: 0px 5px 10px 2px rgba(7, 35, 56, 0.3);
+  box-shadow: 0px 5px 10px 2px rgba(7, 35, 56, 0.3);
   text-align: center;
   width: 300px;
   height: 280px;
