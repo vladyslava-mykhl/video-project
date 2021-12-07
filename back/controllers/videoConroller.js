@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Types.ObjectId
+const ObjectId = mongoose.Types.ObjectId;
 const Video = mongoose.model('Video');
 const bcrypt = require('bcryptjs');;
 const jwt = require('jsonwebtoken');
@@ -9,7 +9,7 @@ const fileMiddleware = require('../middleware/file');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
 const ffprobe = require('ffprobe');
-const router = Router();;
+const router = Router();
 const fs = require('fs');
 const { getVideoDurationInSeconds } = require('get-video-duration');
 const mongooseFindAndFilter = require('mongoose-find-and-filter');

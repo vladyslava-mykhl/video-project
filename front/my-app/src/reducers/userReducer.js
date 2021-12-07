@@ -12,12 +12,6 @@ const UserReducer = (state, action) => {
                 userId: "",
                 userName: ""
             };
-        // case "ERROR":
-        //     return {
-        //         ...state,
-        //         error: action.payload.error,
-        //         message: action.payload.message
-        //     };
         default:
             return state;
     };

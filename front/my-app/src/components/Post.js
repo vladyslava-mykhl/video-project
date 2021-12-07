@@ -9,7 +9,6 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 
-
 const Post = ({onWatched, video}) => {
     return (
         <CardsContainer>

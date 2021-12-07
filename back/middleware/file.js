@@ -1,6 +1,6 @@
-const multer = require('multer')
+const multer = require('multer');
 const { uuid } = require('uuidv4');
-const fs = require('fs')
+const fs = require('fs');
 
 if (!fs.existsSync('public/video')) {
     fs.mkdir('public/video', {recursive: true}, err => {

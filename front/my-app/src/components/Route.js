@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import history from '../components/history';
-import Logout from '../components/Logout'
+import Logout from '../components/Logout';
 import RegistrationForm from '../pages/Registration';
 import LoginForm from '../pages/Login';
 import VideoUpload from "../pages/VideoUpload";
