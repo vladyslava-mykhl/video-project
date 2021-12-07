@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
 import Post from '../components/Post'
 import {notification} from '../components/Toasts';
-import {FilterVideoButton, CancelButton} from '../components/Buttons';
+import {FilterVideoButton} from '../components/Buttons';
 import CategorySelect from '../components/CategorySelect';
 
 const ShowVideo = () => {
@@ -15,6 +15,7 @@ const ShowVideo = () => {
     const [video, setVideo] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isMy, setIsMy] = useState(false);
+    console.log(state.userId == false)
     const [isSelectCategory, setIsSelectCategory] = useState("");
     const onVideoFilter = () => {
         setLoading(true);
@@ -46,8 +47,8 @@ const ShowVideo = () => {
             {loading ? <Loader type="TailSpin" color='#6c757d' height={150} width={150} className="video-upload"/> :
                 <VideoFit>
                     <FilterContainer>
+                        {state.userId && <FilterVideoButton isMy={isMy} onToggle={() => setIsMy(!isMy)}/> }
                         <CategorySelect isSelectCategory={isSelectCategory} setIsSelectCategory={setIsSelectCategory}/>
-                        <FilterVideoButton isMy={isMy} onToggle={() => setIsMy(!isMy)}/>
                     </FilterContainer>
                     {video.length === 0 ?
                         <div>

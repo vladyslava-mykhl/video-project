@@ -9,7 +9,7 @@ export const Video = ({video, second}) => {
     const [isLoading, setLoading] = useState(false);
     const [toggle, setToggle] = useState();
     const vidRef = useRef(null);
-    const src = `http://localhost:3000/${video}#t=${second}`;
+    const src = `http://localhost:3000/${video}`;
     const id = video?.slice(6, -4);
     const triggerToggle = () => {
         setToggle(!toggle);
@@ -19,6 +19,9 @@ export const Video = ({video, second}) => {
         if (second === 1 ) setToggle(true);
         else {
           setToggle(false);
+          if(vidRef && vidRef.current) {
+              vidRef.current.currentTime = second;
+          }
           vidRef?.current?.play();
         };
     },[second]);
@@ -59,6 +62,12 @@ export const Video = ({video, second}) => {
         </>
     );
 };
+
+React.memo(Video, (props, nextProps)=> {
+    if(props.second !== nextProps.second) {
+        return true
+    }
+})
 
 const VideoComponent = styled.div`
   display: flex;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
-import { TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import {FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import {notification} from '../components/Toasts';
@@ -10,7 +10,7 @@ const CategorySelect = ({isSelectCategory, setIsSelectCategory}) => {
     let componentMounted = true;
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get("http://localhost:3000/get-categories")
+            await axios.get("http://localhost:3000/get-categories")
                 .then(res => (componentMounted && setCategories(res.data)))
                 .catch(e => notification('error', e))
         };

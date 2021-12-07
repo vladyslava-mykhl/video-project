@@ -8,33 +8,33 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
-import {faEye} from "@fortawesome/free-solid-svg-icons";
+
 
 const Post = ({onWatched, video}) => {
     return (
         <CardsContainer>
                 {video?.map(video =>
-                    <Card sx={{ maxWidth: 345 }}>
-                        <CardHeader
-                            title={video.user?.username}
-                            subheader={new Date(video.createdAt).toLocaleString('en-us', { month: 'long',  year: 'numeric', day: 'numeric' })}
+                <Card sx={{ maxWidth: 345 }}>
+                    <CardHeader
+                        title={video.user?.username}
+                        subheader={new Date(video.createdAt).toLocaleString('en-us', { month: 'long',  year: 'numeric', day: 'numeric' })}
+                    />
+                     <a onClick={()=>onWatched(video.id)} href={`http://localhost:3001/uploaded-video/${video.id}`}>
+                        <CardMedia
+                            component="img"
+                            height="194"
+                            image={`http://localhost:3000/${video.screenPath[0]}`}
+                            alt="post"
                         />
-                         <a onClick={()=>onWatched(video.id)} href={`http://localhost:3001/uploaded-video/${video.id}`}>
-                            <CardMedia
-                                component="img"
-                                height="194"
-                                image={`http://localhost:3000/${video.screenPath[0]}`}
-                                alt="post"
-                            />
-                        </a>
-                        <CardContent>
-                            <Typography variant="body2" color="text.secondary">{video.name}</Typography>
-                            <CardActions disableSpacing>
-                                <Typography>{video.views}</Typography>
-                                <VisibilityIcon  sx={{color: blueGrey[500]}}/>
-                            </CardActions>
-                        </CardContent>
-                    </Card>
+                    </a>
+                    <CardContent>
+                        <Typography variant="body2" color="text.secondary">{video.name}</Typography>
+                        <CardActions disableSpacing>
+                            <Typography>{video.views}</Typography>
+                            <VisibilityIcon  sx={{color: blueGrey[500]}}/>
+                        </CardActions>
+                    </CardContent>
+                </Card>
                 )}
         </CardsContainer>
     );
@@ -49,9 +49,9 @@ const CardsContainer = styled.div`
      justify-content: center;
      .MuiPaper-root {
        margin: 20px;
-       -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
-       -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
-       box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+        -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+        -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+        box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
        border-radius: 3%;
        transition: all 500ms;
      }
