@@ -1,7 +1,6 @@
 import React from 'react';
-import {Paper, Typography, Link, Button} from '@mui/material';
+import {Paper, Typography, Link} from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { blue } from '@mui/material/colors';
 
 const Home = () => {
     return (

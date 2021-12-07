@@ -7,7 +7,7 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const {onLog} = useUser();
     return (
-        <Grid container item className="auth-form" xs={10} sm={7} md={3} container direction="column" justifyContent="center" alignItems="center">
+        <Grid container item className="auth-form" xs={10} sm={7} md={3} direction="column" justifyContent="center" alignItems="center">
             <TextField
                 type="phone"
                 helperText="Please enter your phone"

@@ -14,13 +14,15 @@ const Post = ({onWatched, video}) => {
     return (
         <CardsContainer>
                 {video?.map(video =>
-                <Card sx={{ maxWidth: 345 }}>
+                <Card key={video.id} sx={{ maxWidth: 345 }}>
                     <CardHeader
+                        key={video.user?.username}
                         title={video.user?.username}
                         subheader={new Date(video.createdAt).toLocaleString('en-us', { month: 'long',  year: 'numeric', day: 'numeric' })}
                     />
-                     <a onClick={()=>onWatched(video.id)} href={`http://localhost:3001/uploaded-video/${video.id}`}>
+                     <a key={video.id} onClick={()=>onWatched(video.id)} href={`http://localhost:3001/uploaded-video/${video.id}`}>
                         <CardMedia
+                            key={video.screenPath[0]}
                             component="img"
                             height="194"
                             image={`http://localhost:3000/${video.screenPath[0]}`}
@@ -30,7 +32,7 @@ const Post = ({onWatched, video}) => {
                     <CardContent>
                         <Typography variant="body2" color="text.secondary">{video.name}</Typography>
                         <CardActions disableSpacing>
-                            <Typography>{video.views}</Typography>
+                            <Typography key={video.views}>{video.views}</Typography>
                             <VisibilityIcon  sx={{color: blueGrey[500]}}/>
                         </CardActions>
                     </CardContent>

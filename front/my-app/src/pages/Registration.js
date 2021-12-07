@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
-import styled from 'styled-components';
 import {useUser} from '../hooks/useUser';
-import { IMaskInput } from 'react-imask';
-import {Paper, Link, Typography, TextField, Button, FormControl, InputLabel, Input, FormHelperText, Grid} from '@mui/material';
+import { Link, Typography, TextField, Button, Grid} from '@mui/material';
 
 const RegistrationForm = () => {
     const [phone, setPhone] = useState('');
@@ -11,7 +9,7 @@ const RegistrationForm = () => {
     const [username, setUsername] = useState('');
     const {onReg} = useUser();
     return (
-        <Grid container item className="auth-form" xs={10} sm={7} md={3} container direction="column" justifyContent="center" alignItems="center">
+        <Grid container item className="auth-form" xs={10} sm={7} md={3} direction="column" justifyContent="center" alignItems="center">
             <TextField
                 type="phone"
                 helperText="Please enter your phone"

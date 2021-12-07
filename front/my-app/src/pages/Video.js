@@ -15,7 +15,6 @@ const ShowVideo = () => {
     const [video, setVideo] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isMy, setIsMy] = useState(false);
-    console.log(state.userId == false)
     const [isSelectCategory, setIsSelectCategory] = useState("");
     const onVideoFilter = () => {
         setLoading(true);
