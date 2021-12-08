@@ -13,7 +13,7 @@ exports.registerUser = async (req, res, next) => {
         };
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            throw ApiError.BadRequest('Validation error', errors.array());
+            throw ApiError.BadRequest('Your password must be at least 5 characters long', errors.array());
         };
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const createUser = await User.create({
